@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useCallback, useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
+import { useCallback, useEffect, useRef, useState, useSyncExternalStore, type CSSProperties, type ReactNode } from "react";
 import { Icon, type IconName } from "@/components/Icon";
 
 type Role = "CEO" | "CMO" | "CFO" | "CTO";
@@ -17,7 +17,25 @@ interface SlideDef {
 // animatsiya kechikishi: elementlar ketma-ket chiqishi uchun
 const d = (ms: number) => ({ "--d": `${ms}ms` }) as CSSProperties;
 
-const ROLE_TIME: Record<Role, string> = { CEO: "2:30", CMO: "1:50", CFO: "1:30", CTO: "2:00" };
+// Slaydlar 1600×900 kanvasda chiziladi va ekranga sigʻadigan qilib masshtablanadi — scroll boʻlmaydi
+const CANVAS_W = 1600;
+const CANVAS_H = 900;
+const subscribeResize = (cb: () => void) => {
+  window.addEventListener("resize", cb);
+  return () => window.removeEventListener("resize", cb);
+};
+const fitScale = () => Math.min(window.innerWidth / CANVAS_W, window.innerHeight / CANVAS_H);
+
+const subscribeFullscreen = (cb: () => void) => {
+  document.addEventListener("fullscreenchange", cb);
+  return () => document.removeEventListener("fullscreenchange", cb);
+};
+const isFullscreen = () => !!document.fullscreenElement;
+
+function toggleFullscreen() {
+  if (document.fullscreenElement) document.exitFullscreen();
+  else document.documentElement.requestFullscreen?.();
+}
 
 function fmt(v: number, decimals: number) {
   const [int, frac] = v.toFixed(decimals).split(".");
@@ -381,7 +399,7 @@ const SLIDES: SlideDef[] = [
         <div className="p-split">
           <div className="stack-l">
             <p className="p-text a a-left" style={d(250)}>Websaytimiz manzili</p>
-            <p className="p-url a a-pop" style={d(400)}>[medis-sayt.uz]</p>
+            <p className="p-url a a-pop" style={d(400)}>medis.tayyorr.uz</p>
             <Link href="/" className="p-btn a a-up" style={d(600)}>Saytni ochish <span aria-hidden="true">→</span></Link>
           </div>
           <ol className="p-check">
@@ -414,7 +432,7 @@ const SLIDES: SlideDef[] = [
           <Brand />
         </div>
         <h2 className="a a-up" style={d(450)}>Davolanish shifoxona eshigida tugamasin</h2>
-        <p className="p-text a a-fade" style={d(800)}>Rahmat! Savollaringizga tayyormiz · [medis-sayt.uz] · [telefon / Telegram]</p>
+        <p className="p-text a a-fade" style={d(800)}>Rahmat! Savollaringizga tayyormiz · medis.tayyorr.uz · +998 (97) 797 79 67</p>
         <Ecg className="a a-draw dark" />
       </div>
     ),
@@ -424,8 +442,23 @@ const SLIDES: SlideDef[] = [
 export function Pitch() {
   const [i, setI] = useState(0);
   const [dir, setDir] = useState<"next" | "prev">("next");
+  const [idle, setIdle] = useState(false);
   const touch = useRef<number | null>(null);
   const n = SLIDES.length;
+  const scale = useSyncExternalStore(subscribeResize, fitScale, () => 1);
+  const fullscreen = useSyncExternalStore(subscribeFullscreen, isFullscreen, () => false);
+
+  // sichqoncha 2,5 s qimirlamasa kursor va toʻliq ekran tugmasi yashirinadi
+  useEffect(() => {
+    let t = setTimeout(() => setIdle(true), 2500);
+    const wake = () => {
+      setIdle(false);
+      clearTimeout(t);
+      t = setTimeout(() => setIdle(true), 2500);
+    };
+    window.addEventListener("mousemove", wake);
+    return () => { window.removeEventListener("mousemove", wake); clearTimeout(t); };
+  }, []);
 
   const go = useCallback((to: number) => {
     const next = Math.max(0, Math.min(n - 1, to));
@@ -439,10 +472,7 @@ export function Pitch() {
       else if (["ArrowLeft", "PageUp", "Backspace"].includes(e.key)) { e.preventDefault(); setDir("prev"); setI((c) => Math.max(0, c - 1)); }
       else if (e.key === "Home") go(0);
       else if (e.key === "End") go(n - 1);
-      else if (e.key.toLowerCase() === "f") {
-        if (document.fullscreenElement) document.exitFullscreen();
-        else document.documentElement.requestFullscreen?.();
-      }
+      else if (e.key.toLowerCase() === "f") toggleFullscreen();
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
@@ -469,7 +499,7 @@ export function Pitch() {
 
   return (
     <div
-      className={`pitch t-${s.theme}`}
+      className={`pitch t-${s.theme}${idle ? " idle" : ""}`}
       onTouchStart={(e) => { touch.current = e.touches[0].clientX; }}
       onTouchEnd={(e) => {
         if (touch.current === null) return;
@@ -480,23 +510,21 @@ export function Pitch() {
     >
       <div className="p-progress" aria-hidden="true"><span style={{ width: `${((i + 1) / n) * 100}%` }} /></div>
 
-      <section key={s.id} className={`p-slide enter-${dir}`} aria-roledescription="slayd" aria-label={`${i + 1} / ${n}`}>
-        <div className="p-inner">{s.render()}</div>
-      </section>
+      <button
+        className={`p-fs${idle ? " idle" : ""}`}
+        onClick={(e) => { toggleFullscreen(); e.currentTarget.blur(); }}
+        aria-label={fullscreen ? "Toʻliq ekrandan chiqish" : "Toʻliq ekran"}
+        title="Toʻliq ekran (F)"
+      >
+        <Icon name={fullscreen ? "minimize" : "maximize"} size={16} />
+        {fullscreen ? "Chiqish" : "Toʻliq ekran"}
+      </button>
 
-      <footer className="p-bar">
-        <span className={`p-role r-${s.role}`}>{s.role} · {ROLE_TIME[s.role]}</span>
-        <span className="p-dots">
-          {SLIDES.map((x, k) => (
-            <button key={x.id} aria-label={`${k + 1}-slayd`} aria-current={k === i} className={x.role !== SLIDES[k - 1]?.role ? "first" : ""} onClick={() => go(k)} />
-          ))}
-        </span>
-        <span className="p-nav">
-          <button onClick={() => go(i - 1)} disabled={i === 0} aria-label="Oldingi slayd">←</button>
-          <span className="mono">{i + 1}/{n}</span>
-          <button onClick={() => go(i + 1)} disabled={i === n - 1} aria-label="Keyingi slayd">→</button>
-        </span>
-      </footer>
+      <div className="p-stage" style={{ transform: `translate(-50%, -50%) scale(${scale})` }}>
+        <section key={s.id} className={`p-slide enter-${dir}`} aria-roledescription="slayd" aria-label={`${i + 1} / ${n}`}>
+          <div className="p-inner">{s.render()}</div>
+        </section>
+      </div>
     </div>
   );
 }
