@@ -1,0 +1,28 @@
+.auth { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); min-height: 100dvh; }
+.auth-side { background: var(--navy); color: #fff; padding: 40px; display: flex; flex-direction: column; justify-content: space-between; gap: 32px; }
+.auth-side .logo { color: #fff; }
+.auth-side h1 { font-size: clamp(26px, 3vw, 38px); max-width: 16ch; }
+.auth-side p { color: #b9c7db; margin-top: 14px; max-width: 46ch; }
+.auth-foot { color: #8ea3c2; }
+.auth-main { display: grid; place-items: center; padding: 32px 16px; }
+.auth-card { width: 100%; max-width: 520px; background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 28px; display: grid; gap: 20px; box-shadow: var(--shadow); }
+.auth-card h2 { font-size: 24px; }
+.role-pick { display: flex; flex-wrap: wrap; gap: 8px; }
+.role-pick button { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--line); background: var(--bg); border-radius: 10px; padding: 8px 12px; cursor: pointer; font-weight: 700; font-size: 14px; color: var(--muted); }
+.role-pick button[aria-checked="true"] { border-color: var(--teal); background: var(--teal-soft); color: var(--teal); }
+.phone-input { display: flex; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); overflow: hidden; }
+.phone-input span { padding: 10px 12px; border-right: 1px solid var(--line); font-weight: 700; color: var(--muted); display: grid; place-items: center; }
+.phone-input input { border: 0 !important; background: transparent !important; outline: none; flex: 1; min-width: 0; }
+.phone-input:focus-within { outline: 2px solid var(--teal); }
+.code-input { font-size: 26px !important; letter-spacing: 0.4em; text-align: center; }
+.err { color: var(--danger); font-size: 14px; font-weight: 600; }
+.center { text-align: center; justify-items: center; }
+.linklike { background: none; border: 0; padding: 0; color: var(--teal); font-weight: 700; cursor: pointer; }
+.pending-ic { width: 64px; height: 64px; border-radius: 50%; background: var(--warn-soft); color: var(--warn); display: grid; place-items: center; }
+
+@media (max-width: 860px) {
+  .auth { grid-template-columns: minmax(0, 1fr); }
+  .auth-side { padding: 24px 16px; }
+  .auth-side h1, .auth-side p, .auth-foot { display: none; }
+  .auth-card { padding: 20px; }
+}
