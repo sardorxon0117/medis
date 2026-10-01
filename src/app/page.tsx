@@ -225,7 +225,7 @@ export default function Home() {
       <footer className="site-foot">
         <div className="wrap">
           <span>© 2026 MEDIS. Shaxsga doir maʼlumotlar Oʻzbekiston hududida saqlanadi.</span>
-          <span>Tez yordam: <b>103</b></span>
+          <span><Link href="/taqdimot">Startup taqdimoti</Link> · Tez yordam: <b>103</b></span>
         </div>
       </footer>
     </>
