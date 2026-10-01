@@ -1,20 +1,13 @@
+import Image from "next/image";
 import Link from "next/link";
 
-export function LogoMark() {
+// Belgi oʻz rangida (teal) chiqadi; "medis" yozuvi mask orqali currentColor bilan boʻyaladi,
+// shuning uchun yorugʻ fonda toʻq koʻk, qorongʻi fonda oq boʻladi
+export function Logo({ href = "/", size = 34 }: { href?: string; size?: number }) {
   return (
-    <svg viewBox="0 0 40 40" aria-hidden="true">
-      <rect width="40" height="40" rx="11" fill="#1B2A4A" />
-      <circle cx="20" cy="20" r="13" fill="none" stroke="#2EC4D1" strokeWidth="2.6" />
-      <path d="M5 21h8l3-7 4 13 3-9 2 3h10" fill="none" stroke="#fff" strokeWidth="2.4" strokeLinejoin="round" strokeLinecap="round" />
-    </svg>
-  );
-}
-
-export function Logo({ href = "/" }: { href?: string }) {
-  return (
-    <Link href={href} className="logo" aria-label="MEDIS bosh sahifa">
-      <LogoMark />
-      medis
+    <Link href={href} className="logo" aria-label="MEDIS bosh sahifa" style={{ "--logo-h": `${size}px` } as React.CSSProperties}>
+      <Image src="/brand/medis-mark.png" alt="" width={314} height={269} priority className="logo-mark" />
+      <span className="logo-word" aria-hidden="true" />
     </Link>
   );
 }

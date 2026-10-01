@@ -45,7 +45,7 @@ export default function Home() {
     <>
       <header className="site-head">
         <div className="wrap">
-          <Logo />
+          <Logo size={40} />
           <nav className="site-nav" aria-label="Asosiy">
             <a className="link hide-sm" href="#qanday">Qanday ishlaydi</a>
             <a className="link hide-sm" href="#rollar">Kimlar uchun</a>
