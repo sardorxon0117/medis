@@ -456,7 +456,12 @@ export function Pitch() {
       t = setTimeout(() => setIdle(true), 2500);
     };
     window.addEventListener("mousemove", wake);
-    return () => { window.removeEventListener("mousemove", wake); clearTimeout(t); };
+    window.addEventListener("touchstart", wake);
+    return () => {
+      window.removeEventListener("mousemove", wake);
+      window.removeEventListener("touchstart", wake);
+      clearTimeout(t);
+    };
   }, []);
 
   const go = useCallback((to: number) => {
@@ -518,6 +523,13 @@ export function Pitch() {
         <Icon name={fullscreen ? "minimize" : "maximize"} size={16} />
         {fullscreen ? "Chiqish" : "Toʻliq ekran"}
       </button>
+
+      {/* faqat sensorli ekranlarda koʻrinadi (CSS: pointer: coarse) */}
+      <div className="p-touch-nav">
+        <button onClick={() => go(i - 1)} disabled={i === 0} aria-label="Oldingi slayd">←</button>
+        <span className="mono">{i + 1} / {n}</span>
+        <button onClick={() => go(i + 1)} disabled={i === n - 1} aria-label="Keyingi slayd">→</button>
+      </div>
 
       <div className="p-stage" style={{ transform: `translate(-50%, -50%) scale(${scale})` }}>
         <section key={s.id} className={`p-slide enter-${dir}`} aria-roledescription="slayd" aria-label={`${i + 1} / ${n}`}>
