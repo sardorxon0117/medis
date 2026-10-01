@@ -405,7 +405,7 @@ const SLIDES: SlideDef[] = [
             {[
               ["Bosh sahifa", "toʻliq yuklanishi va tezligi"],
               ["Menyu", "Qanday ishlaydi · Kimlar uchun · Narxlar"],
-              ["Roʻyxatdan oʻtish", "shifokor arizasi formasi"],
+              ["Roʻyxatdan oʻtish", "OneID (MED-ID) orqali, shifokor arizasi"],
               ["Shifokor paneli", "bemor kartasi va grafiklar"],
               ["Elektron retsept", "bemor koʻrinishi bilan"],
               ["Apteka paneli", "buyurtma va retsept tekshiruvi"],

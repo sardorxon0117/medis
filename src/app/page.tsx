@@ -72,6 +72,7 @@ export default function Home() {
               <div className="trust">
                 <span><Icon name="lock" size={16} />Maʼlumotlar Oʻzbekistonda saqlanadi</span>
                 <span><Icon name="shield" size={16} />Litsenziyasi tekshirilgan shifokorlar</span>
+                <span><Icon name="user" size={16} />OneID (MED-ID) orqali kirish</span>
               </div>
             </div>
 

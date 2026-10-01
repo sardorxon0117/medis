@@ -14,7 +14,7 @@ npm run build && npm start
 | Yoʻl | TZ talablari |
 |---|---|
 | `/` | Landing: muammolar, rollar, SOS, narxlar, yoʻl xaritasi |
-| `/kirish` | SMS kod, shifokor/admin uchun 2FA, roʻyxatdan oʻtish (SH-01, A-01, K-01) |
+| `/kirish` | OneID (MED-ID) orqali kirish va roʻyxatdan oʻtish (shaxs maʼlumotlari OneID dan), shifokor/admin uchun 2FA, zaxira: SMS kod (SH-01, A-01, K-01) |
 | `/shifokor/*` | SH-02 … SH-12: bosh panel, bemorlar, bemor kartasi, chegaralar, nazorat rejasi, signallar, elektron retsept, navbat, reels, profil, Premium |
 | `/klinika/*` | K-01 … K-06: statistika, umumiy navbat, shifokorlar, jadval, profil, Pro |
 | `/apteka/*` | A-01 … A-05: buyurtmalar va retsept tekshiruvi, katalog (CSV import), hisobot, profil |
@@ -31,6 +31,6 @@ npm run build && npm start
 ## Hali qilinmagan
 
 - Backend (NestJS/FastAPI), haqiqiy autentifikatsiya va saqlash — oʻzgarishlar sahifa yangilanganda yoʻqoladi
-- Xarita SDK, toʻlov provayderlari, SMS/push integratsiyalari
+- OneID OAuth (hozir demo oynasi), xarita SDK, toʻlov provayderlari, SMS/push integratsiyalari
 - Til almashtirgich hozircha faqat koʻrinishda (tarjimalar yoʻq)
 - Bemor va kuryer mobil ilovalari (alohida loyiha)
