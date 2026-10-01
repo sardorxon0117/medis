@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore, type CSSProperties, type ReactNode } from "react";
 import { Icon, type IconName } from "@/components/Icon";
 
@@ -400,7 +399,7 @@ const SLIDES: SlideDef[] = [
           <div className="stack-l">
             <p className="p-text a a-left" style={d(250)}>Websaytimiz manzili</p>
             <p className="p-url a a-pop" style={d(400)}>medis.tayyorr.uz</p>
-            <Link href="/" className="p-btn a a-up" style={d(600)}>Saytni ochish <span aria-hidden="true">→</span></Link>
+            <a href="/" target="_blank" rel="noopener noreferrer" className="p-btn a a-up" style={d(600)}>Saytni ochish <span aria-hidden="true">↗</span></a>
           </div>
           <ol className="p-check">
             {[
