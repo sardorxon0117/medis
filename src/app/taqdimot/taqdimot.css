@@ -194,7 +194,7 @@
 /* demo slaydi: katta oq QR qorongʻi fonda */
 .p-demo { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 64px; align-items: center; }
 .p-qr-big { position: relative; display: grid; place-items: center; padding: 20px; }
-.p-qr-big .qr { position: relative; display: block; border-radius: 28px; box-shadow: 0 0 0 1px rgba(46, 196, 209, 0.25), 0 40px 80px -40px rgba(0, 0, 0, 0.8); }
+.p-qr-big .qr { position: relative; display: block; filter: drop-shadow(0 30px 40px rgba(0, 0, 0, 0.45)); }
 .p-qr-glow { position: absolute; inset: -40px; border-radius: 50%; background: radial-gradient(circle, rgba(46, 196, 209, 0.22), transparent 70%); animation: halo 4s ease-in-out infinite; }
 
 /* bilaguzuk slaydi: soat oʻngda katta */

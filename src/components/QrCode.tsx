@@ -37,6 +37,8 @@ export function QrCode({ size = 240, tone = "color", label = "medis.tayyorr.uz s
       </defs>
       {/* oq QR uchun bir tekis toʻq plita: orqadagi nur kontrastni buzmasin */}
       <rect width={total} height={total} rx={4} fill={white ? "#0d1729" : "#ffffff"} />
+      {/* chegara plita bilan bir xil shaklda (CSS border-radius bilan farq qilmasligi uchun SVG ichida) */}
+      {white && <rect x={0.06} y={0.06} width={total - 0.12} height={total - 0.12} rx={3.94} fill="none" stroke="rgba(46,196,209,0.35)" strokeWidth={0.12} />}
       <g fill={white ? "#f6f8fa" : `url(#g${id})`}>
         {dots.map(([x, y]) => <circle key={`${x}-${y}`} cx={x + Q + 0.5} cy={y + Q + 0.5} r={white ? 0.47 : 0.43} />)}
         {eyes.map(([x, y]) => (
