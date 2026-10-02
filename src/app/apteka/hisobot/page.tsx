@@ -3,6 +3,7 @@ import { BarChart } from "@/components/Charts";
 import { Card, PageHead, Stat } from "@/components/ui";
 import { pharmacySales } from "@/lib/mock-data";
 import { compact, date, num, som } from "@/lib/format";
+import { CsvButton } from "@/components/Actions";
 
 export const metadata: Metadata = { title: "Hisobot" };
 
@@ -13,7 +14,7 @@ export default function Page() {
   return (
     <>
       <PageHead title="Sotuvlar hisoboti" sub="Kunlik va oylik sotuvlar. MEDIS aptekadan komissiya olmaydi." req="A-05">
-        <button className="btn ghost sm">Excel ga yuklab olish</button>
+        <CsvButton filename="medis-apteka-sotuvlar.csv" rows={[["Sana", "Buyurtmalar", "Tushum, soʻm"], ...pharmacySales.map((d) => [d.date, d.orders, d.revenue])]}>Excel ga yuklab olish (CSV)</CsvButton>
       </PageHead>
       <div className="stats">
         <Stat label="Bugungi tushum" value={compact(today.revenue)} hint={`${today.orders} ta buyurtma`} />

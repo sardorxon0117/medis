@@ -3,6 +3,7 @@ import { PageHead, Stat } from "@/components/ui";
 import { payments } from "@/lib/mock-data";
 import { som } from "@/lib/format";
 import { PaymentsTable } from "./PaymentsTable";
+import { CsvButton } from "@/components/Actions";
 
 export const metadata: Metadata = { title: "Toʻlovlar" };
 
@@ -13,7 +14,7 @@ export default function Page() {
   return (
     <>
       <PageHead title="Toʻlovlar" sub="Onlayn (Click, Payme, Uzcard, Humo) va naqd toʻlovlar. Shifokor va kuryerlarga toʻlov — har hafta." req="6">
-        <button className="btn ghost sm">Moliyaviy hisobot (XLSX)</button>
+        <CsvButton filename="medis-tolovlar.csv" rows={[["ID", "Sana", "Toʻlovchi", "Xizmat", "Provayder", "Summa", "Platforma ulushi", "Holat"], ...payments.map((p) => [p.id, p.date, p.payer, p.type, p.provider, p.amount, p.platformShare, p.status])]}>Moliyaviy hisobot (CSV)</CsvButton>
       </PageHead>
       <div className="stats">
         <Stat label="Aylanma" value={som(turnover)} />

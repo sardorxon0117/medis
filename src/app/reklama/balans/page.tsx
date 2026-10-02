@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Badge, Card, PageHead, Stat } from "@/components/ui";
 import { CURRENT, ads, payments } from "@/lib/mock-data";
 import { dateTime, som } from "@/lib/format";
+import { TopUp } from "./TopUp";
 
 export const metadata: Metadata = { title: "Balans" };
 
@@ -31,12 +32,7 @@ export default function Page() {
           </div>
         </Card>
         <Card title="Balansni toʻldirish">
-          <form className="stack">
-            <div className="field"><label htmlFor="top">Summa, soʻm</label><input id="top" type="number" step={100000} defaultValue={1000000} min={100000} /></div>
-            <div className="chips">{["Click", "Payme", "Uzcard", "Humo"].map((p, i) => <button type="button" className="chip" aria-pressed={i === 0} key={p}>{p}</button>)}</div>
-            <button className="btn" type="button">Toʻlash</button>
-            <p className="hint">Yuridik shaxslar uchun hisob-faktura bank orqali.</p>
-          </form>
+          <TopUp />
         </Card>
       </div>
     </>

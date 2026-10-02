@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { Icon, type IconName } from "@/components/Icon";
 import { Logo } from "@/components/Logo";
+import { Watch } from "@/components/Watch";
+import { ContactForm } from "./ContactForm";
 import { pricing } from "@/lib/mock-data";
 import { som } from "@/lib/format";
 import "./landing.css";
@@ -21,8 +23,8 @@ const flow = [
   { h: "Signal yetadi", p: "Chegaradan oshsa shifokor 30 soniyada push va SMS oladi, bir bosishda chora koʻradi." },
 ];
 
-const roles: { icon: IconName; title: string; platform: string; text: string; href?: string }[] = [
-  { icon: "heart", title: "Bemor", platform: "Mobil ilova", text: "Tibbiy karta, retseptlar, eslatmalar, dori buyurtmasi, navbat va SOS." },
+const roles: { icon: IconName; title: string; platform: string; text: string; href?: string; cta?: string }[] = [
+  { icon: "heart", title: "Bemor", platform: "Mobil ilova", text: "Tibbiy karta, retseptlar, eslatmalar, dori buyurtmasi, navbat va SOS.", href: "/bemor", cta: "Demo ilovani ochish →" },
   { icon: "stethoscope", title: "Shifokor", platform: "Veb-panel + mobil", text: "Bemorlarni kuzatish, elektron retsept, signallar, navbat, reels va profil.", href: "/shifokor" },
   { icon: "building", title: "Klinika", platform: "Veb-panel", text: "Shifokorlar, ish jadvali, umumiy navbat, klinika profili va statistika.", href: "/klinika" },
   { icon: "pill", title: "Apteka", platform: "Veb-panel", text: "Narx va qoldiq, buyurtmalarni qabul qilish, retsept tekshiruvi.", href: "/apteka" },
@@ -48,8 +50,10 @@ export default function Home() {
           <Logo size={40} />
           <nav className="site-nav" aria-label="Asosiy">
             <a className="link hide-sm" href="#qanday">Qanday ishlaydi</a>
+            <a className="link hide-sm" href="#bilaguzuk">Bilaguzuk</a>
             <a className="link hide-sm" href="#rollar">Kimlar uchun</a>
             <a className="link" href="#narxlar">Narxlar</a>
+            <a className="link hide-sm" href="#aloqa">Aloqa</a>
             <Link href="/kirish" className="btn sm">Kirish</Link>
           </nav>
         </div>
@@ -133,7 +137,30 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="block alt" id="rollar">
+        <section className="block alt" id="bilaguzuk">
+          <div className="wrap band">
+            <div>
+              <span className="eyebrow">MEDIS bilaguzugi</span>
+              <h2>Holat 24/7 nazoratda — bemor hech narsa bosmasa ham</h2>
+              <p className="intro" style={{ marginBottom: 0 }}>
+                Bilaguzuk puls, harorat, qondagi kislorod (SpO₂), harakat va uyquni oʻlchaydi. Maʼlumot bemor telefoni orqali shifokorga yetadi:
+                chegaradan oshsa — shifokorga signal, yiqilish yoki SpO₂ keskin tushsa — 10 soniyalik taymerdan keyin avtomatik SOS.
+              </p>
+              <div className="band-metrics">
+                {["Puls", "Harorat", "SpO₂", "Yiqilish", "Qadam va uyqu"].map((m) => <span key={m} className="badge teal">{m}</span>)}
+              </div>
+              <div className="band-steps">
+                <div className="band-step"><div><h3>Tayyor qurilmani sotib olamiz</h3><p>Bilaguzukni oʻzimiz ishlab chiqarmaymiz: sertifikatlangan, sinovdan oʻtgan tayyor aqlli soat va bilaguzuklarni ishlab chiqaruvchilardan ulgurji olamiz.</p></div></div>
+                <div className="band-step"><div><h3>MEDIS ilovasini integratsiya qilamiz</h3><p>Qurilmani MEDIS ilovasiga ulaymiz va sozlaymiz: koʻrsatkichlar avtomatik shifokor paneliga, xavfda — SOS moduliga tushadi.</p></div></div>
+                <div className="band-step"><div><h3>MEDIS brendi bilan sotamiz</h3><p>Ekranida MEDIS logotipi va sozlangan ilova bilan “ochdim — ishlaydi” toʻplami sifatida bemorga, klinikaga va sugʻurta hamkorlariga sotamiz.</p></div></div>
+              </div>
+              <p className="band-note">Shuning uchun bizda ishlab chiqarish va sertifikatlash xarajati yoʻq, qurilmani esa bir necha haftada bozorga chiqarish mumkin.</p>
+            </div>
+            <div className="band-visual"><Watch /></div>
+          </div>
+        </section>
+
+        <section className="block" id="rollar">
           <div className="wrap">
             <span className="eyebrow">Kimlar uchun</span>
             <h2>7 ta rol, har biri faqat oʻziga tegishli maʼlumotni koʻradi</h2>
@@ -146,7 +173,7 @@ export default function Home() {
                     <span className="platform">{r.platform}</span>
                     <h3>{r.title}</h3>
                     <p>{r.text}</p>
-                    <span className="go">{r.href ? "Panelni ochish →" : "Mobil ilovada"}</span>
+                    <span className="go">{r.cta ?? (r.href ? "Panelni ochish →" : "Mobil ilovada")}</span>
                   </>
                 );
                 return r.href ? (
@@ -159,7 +186,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="block" id="sos">
+        <section className="block alt" id="sos">
           <div className="wrap sos">
             <div className="sos-btn" aria-hidden="true">SOS</div>
             <div>
@@ -176,7 +203,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="block alt" id="narxlar">
+        <section className="block" id="narxlar">
           <div className="wrap">
             <span className="eyebrow">Narxlar</span>
             <h2>Asosiy xizmatlar bepul</h2>
@@ -196,7 +223,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="block" id="reja">
+        <section className="block alt" id="reja">
           <div className="wrap">
             <span className="eyebrow">Yoʻl xaritasi</span>
             <h2>MVP 4 oyda, pilotdan keyin kengayish</h2>
@@ -204,8 +231,21 @@ export default function Home() {
               <div className="phase now"><b>MVP ishlab chiqish</b><span className="muted small">1–4 oy</span><ul><li>Bemor ilovasi</li><li>Shifokor paneli</li><li>Retsept, eslatma, SOS</li><li>Apteka va toʻlov</li></ul></div>
               <div className="phase"><b>Pilot</b><span className="muted small">5–6 oy</span><ul><li>2 ta klinika</li><li>300 ta bemor</li><li>Natijani oʻlchash</li></ul></div>
               <div className="phase"><b>Kengayish</b><span className="muted small">7–12 oy</span><ul><li>Toshkent: 20 klinika</li><li>Reels va reklama</li><li>Premium, Klinika Pro</li><li>MED-ID integratsiyasi</li></ul></div>
-              <div className="phase"><b>2-yil</b><span className="muted small">13–24 oy</span><ul><li>Oʻz bilaguzugimiz</li><li>103 bilan integratsiya</li><li>Viloyatlar</li><li>Sugʻurta hamkorligi</li></ul></div>
+              <div className="phase"><b>2-yil</b><span className="muted small">13–24 oy</span><ul><li>MEDIS bilaguzuk toʻplami</li><li>103 bilan integratsiya</li><li>Viloyatlar</li><li>Sugʻurta hamkorligi</li></ul></div>
             </div>
+          </div>
+        </section>
+
+        <section className="block" id="aloqa">
+          <div className="wrap contact">
+            <div className="contact-info">
+              <span className="eyebrow">Aloqa</span>
+              <h2>Klinikangizni yoki aptekangizni ulang</h2>
+              <p className="intro" style={{ marginBottom: 8 }}>Pilotga qoʻshilish, hamkorlik yoki investitsiya boʻyicha yozing — bir ish kuni ichida javob beramiz.</p>
+              <a className="contact-line" href="tel:+998977977967"><span className="ic"><Icon name="phone" /></span>+998 (97) 797 79 67</a>
+              <a className="contact-line" href="https://medis.tayyorr.uz"><span className="ic"><Icon name="pin" /></span>medis.tayyorr.uz</a>
+            </div>
+            <ContactForm />
           </div>
         </section>
 
@@ -226,7 +266,7 @@ export default function Home() {
       <footer className="site-foot">
         <div className="wrap">
           <span>© 2026 MEDIS. Shaxsga doir maʼlumotlar Oʻzbekiston hududida saqlanadi.</span>
-          <span><Link href="/taqdimot">Startup taqdimoti</Link> · Tez yordam: <b>103</b></span>
+          <span><a href="tel:+998977977967">+998 (97) 797 79 67</a> · <Link href="/taqdimot">Startup taqdimoti</Link> · Tez yordam: <b>103</b></span>
         </div>
       </footer>
     </>

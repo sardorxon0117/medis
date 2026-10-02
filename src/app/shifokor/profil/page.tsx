@@ -5,6 +5,7 @@ import { getClinic, getDoctor } from "@/lib/api";
 import { CURRENT, pricing } from "@/lib/mock-data";
 import { date, initials, som } from "@/lib/format";
 import { ProfileForm } from "./ProfileForm";
+import { ActionButton } from "@/components/Actions";
 
 export const metadata: Metadata = { title: "Profil" };
 
@@ -47,10 +48,10 @@ export default function Page() {
             {d.premiumUntil ? (
               <>
                 <Badge tone="ok">Faol · {date(d.premiumUntil)} gacha</Badge>
-                <button className="btn ghost">Uzaytirish</button>
+                <ActionButton className="btn ghost" message="Premium 1 oyga uzaytirish uchun toʻlov sahifasi ochildi">Uzaytirish</ActionButton>
               </>
             ) : (
-              <button className="btn">Premiumga oʻtish</button>
+              <ActionButton message="Premium uchun toʻlov sahifasi ochildi">Premiumga oʻtish</ActionButton>
             )}
             <p className="hint">Toʻlov: Click, Payme, Uzcard, Humo. Oddiy hisob bepul qoladi.</p>
           </div>

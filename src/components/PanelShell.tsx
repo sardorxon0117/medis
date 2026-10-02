@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useState, useSyncExternalStore } from "react";
 import { Icon } from "./Icon";
 import { Logo } from "./Logo";
+import { PanelSearch } from "./PanelSearch";
 import { panels, type PanelKey } from "@/lib/nav";
 import { initials } from "@/lib/format";
 
@@ -90,9 +91,7 @@ export function PanelShell({ panel, children }: { panel: PanelKey; children: Rea
           <button className="icon-btn burger" aria-label="Menyuni ochish" onClick={() => setOpen(true)}>
             <Icon name="menu" />
           </button>
-          <div className="search">
-            <input className="input" aria-label="Qidiruv" placeholder="Qidirish: bemor, retsept, buyurtma…" />
-          </div>
+          <PanelSearch panel={panel} />
           <div className="tools">
             <button className="icon-btn" onClick={toggleSize} aria-pressed={large} title="Katta shrift rejimi" aria-label="Katta shrift rejimi">
               <b style={{ fontSize: 14 }}>A+</b>
@@ -100,11 +99,6 @@ export function PanelShell({ panel, children }: { panel: PanelKey; children: Rea
             <button className="icon-btn" onClick={toggleTheme} aria-label={dark ? "Yorugʻ rejim" : "Qorongʻi rejim"} title="Mavzu">
               <Icon name={dark ? "sun" : "moon"} />
             </button>
-            <select className="input" aria-label="Til" defaultValue="uz" style={{ width: "auto", minHeight: 38, padding: "6px 10px" }}>
-              <option value="uz">Oʻzbekcha</option>
-              <option value="uz-cyrl">Ўзбекча</option>
-              <option value="ru">Русский</option>
-            </select>
           </div>
         </header>
         <main className="content">{children}</main>

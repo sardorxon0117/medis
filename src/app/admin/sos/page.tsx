@@ -4,6 +4,7 @@ import { getPatient } from "@/lib/api";
 import { sosEvents } from "@/lib/mock-data";
 import { dateTime } from "@/lib/format";
 import { SOS_SOURCE, SOS_STATUS } from "./labels";
+import { CsvButton } from "@/components/Actions";
 
 export const metadata: Metadata = { title: "SOS jurnali" };
 
@@ -12,7 +13,7 @@ export default function Page() {
   return (
     <>
       <PageHead title="SOS jurnali" sub="Har bir SOS hodisasi yoziladi: vaqt, manba, manzil, kim koʻrdi, natija. Tez yordamga yetkazish talabi — 5 soniyadan kam." req="4.6">
-        <button className="btn ghost sm">CSV eksport</button>
+        <CsvButton filename="medis-sos-jurnali.csv" rows={[["ID", "Vaqt", "Bemor", "Manba", "Manzil", "Kim koʻrdi", "103 javobi", "Natija"], ...sosEvents.map((e) => [e.id, e.time, getPatient(e.patientId)?.fullName ?? "", SOS_SOURCE[e.source], e.address, e.seenBy.join(", "), e.ambulanceReply ?? "", SOS_STATUS[e.status][1]])]}>CSV eksport</CsvButton>
       </PageHead>
       <div className="stats">
         <Stat label="Jami hodisalar" value={sosEvents.length} hint="30 kun" />

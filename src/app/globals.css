@@ -307,6 +307,25 @@ table.table { width: 100%; border-collapse: collapse; font-size: 15px; }
 .order-items { list-style: none; margin: 0; padding: 8px 0; border-block: 1px dashed var(--line); display: grid; gap: 6px; font-size: 14px; }
 .order-items li { display: flex; justify-content: space-between; gap: 10px; }
 
+/* panel qidiruvi */
+.psearch { position: relative; }
+.psearch-list { position: absolute; top: calc(100% + 6px); left: 0; right: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); padding: 6px; z-index: 30; display: grid; }
+.psearch-item { display: flex; gap: 10px; align-items: center; padding: 8px 10px; border-radius: 8px; text-decoration: none; color: var(--fg); }
+.psearch-item:hover, .psearch-item:focus-visible { background: var(--surface-2); }
+.psearch-item svg { color: var(--teal); flex: none; }
+.psearch-item span { display: grid; min-width: 0; }
+.psearch-item small { color: var(--muted); font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.psearch-empty { padding: 10px; color: var(--muted); font-size: 14px; }
+
+/* MEDIS bilaguzugi (Watch.tsx) */
+.watch { width: 100%; height: auto; display: block; overflow: visible; filter: drop-shadow(0 40px 60px rgba(8, 40, 60, 0.35)); }
+.watch .w-heart { animation: w-beat 1s ease-in-out infinite; }
+.watch.is-alert .w-heart { animation-duration: 0.5s; }
+.watch .w-ecg { stroke-dasharray: 320; stroke-dashoffset: 320; animation: w-ecg 2.2s linear infinite; }
+@keyframes w-beat { 0%, 100% { transform: scale(1); } 15% { transform: scale(1.18); } 30% { transform: scale(0.96); } 45% { transform: scale(1.1); } }
+@keyframes w-ecg { 0% { stroke-dashoffset: 320; } 70% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: -320; } }
+@media (prefers-reduced-motion: reduce) { .watch .w-heart, .watch .w-ecg { animation: none; stroke-dashoffset: 0; } }
+
 /* ---------- responsiv ---------- */
 @media (max-width: 1080px) {
   .grid-main { grid-template-columns: minmax(0, 1fr); }

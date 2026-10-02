@@ -6,6 +6,7 @@ import { doseLogsOf, evaluate, getDrug, getPatient, planDay, prescriptionsOf, su
 import { CURRENT, patients, plans } from "@/lib/mock-data";
 import { age } from "@/lib/format";
 import { PatientDetail } from "./PatientDetail";
+import { ActionButton } from "@/components/Actions";
 
 export function generateStaticParams() {
   return patients.map((p) => ({ id: p.id }));
@@ -33,7 +34,7 @@ export default async function Page(props: PageProps<"/shifokor/bemorlar/[id]">) 
             <Icon name="lock" size={36} />
             <b style={{ color: "var(--fg)" }}>Bemor kartasiga kirish uchun ruxsat kerak</b>
             <p>Bu bemor sizning nazoratingizda emas va maʼlumot ulashishga rozilik bermagan. Soʻrov bemor ilovasiga yuboriladi.</p>
-            <button className="btn">Ruxsat soʻrash</button>
+            <ActionButton message="Ruxsat soʻrovi bemor ilovasiga yuborildi">Ruxsat soʻrash</ActionButton>
             <p className="xs">Urinish audit jurnaliga yozildi.</p>
           </div>
         </Card>

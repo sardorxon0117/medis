@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore, type CSSProperties, type ReactNode } from "react";
 import { Icon, type IconName } from "@/components/Icon";
+import { Watch } from "@/components/Watch";
 
 type Role = "CEO" | "CMO" | "CFO" | "CTO";
 
@@ -176,6 +177,33 @@ const SLIDES: SlideDef[] = [
         </div>
         <p className="p-text a a-fade" style={d(1600)}>Bitta platformada: bemor, shifokor, klinika, apteka va kuryer. Yaqin aptekadan dori buyurtma qilish ham shu yerda.</p>
       </>
+    ),
+  },
+  {
+    id: "bilaguzuk", role: "CEO", theme: "dark",
+    render: () => (
+      <div className="p-band">
+        <div className="stack-l">
+          <Head eyebrow="CEO · MEDIS bilaguzugi" title={<>Holat <span className="accent">24/7</span> nazoratda</>} />
+          <p className="p-text a a-fade" style={d(300)}>Puls, harorat, SpO₂, yiqilish va uyqu — bemor hech narsa bosmasa ham shifokorga yetadi. Xavf boʻlsa — avtomatik SOS.</p>
+          <div className="band-flow">
+            {([
+              ["box", "Sotib olamiz", "Tayyor, sertifikatlangan aqlli soat va bilaguzuklar — oʻzimiz ishlab chiqarmaymiz"],
+              ["settings", "Integratsiya qilamiz", "MEDIS ilovasiga ulaymiz: koʻrsatkichlar shifokor paneliga, xavf — SOS ga"],
+              ["star", "MEDIS brendi bilan sotamiz", "Logotip va sozlangan ilova bilan tayyor toʻplam: bemor, klinika, sugʻurta"],
+            ] as [IconName, string, string][]).map(([ic, t, x], i) => (
+              <div key={t} className="band-row a a-left" style={d(450 + i * 200)}>
+                <span className="p-ic"><Icon name={ic} size={26} /></span>
+                <div><h3>{t}</h3><p>{x}</p></div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="band-watch a a-pop" style={d(250)}>
+          <div className="band-halo" />
+          <Watch />
+        </div>
+      </div>
     ),
   },
   {
@@ -363,10 +391,10 @@ const SLIDES: SlideDef[] = [
       const rev = [8.3, 16.5, 24.8, 33.0, 41.3, 49.5, 57.8, 66.1, 74.3, 82.6, 90.8, 99.1];
       return (
         <>
-          <Head eyebrow="CFO · 12 oylik prognoz" title="7-oydan foydaga chiqamiz" />
+          <Head eyebrow="CFO · 12 oylik prognoz" title="Ishga tushgach 7-oydan foydaga chiqamiz" />
           <div className="p-split wide">
             <div className="p-chart">
-              <p className="chart-cap a a-fade" style={d(200)}>Oylik daromad, mln soʻm · <span className="accent">toʻq — foyda</span>, och — zarar</p>
+              <p className="chart-cap a a-fade" style={d(200)}>Ishga tushgandan (pilot) keyingi oylar · daromad, mln soʻm · <span className="accent">toʻq — foyda</span>, och — zarar</p>
               <div className="bars">
                 <div className="cost-line a a-fade" style={{ ...d(1900), bottom: `calc(26px + (100% - 54px) * ${52 / 110})` }}><span>Oylik xarajat ≈ 52 mln</span></div>
                 {rev.map((v, i) => (
@@ -379,7 +407,7 @@ const SLIDES: SlideDef[] = [
               </div>
             </div>
             <div className="p-kpi-list">
-              <div className="a a-right" style={d(700)}><b><Count to={644} suffix=" mln" delay={700} /></b><span>12 oylik daromad prognozi, soʻm</span></div>
+              <div className="a a-right" style={d(700)}><b><Count to={644} suffix=" mln" delay={700} /></b><span>ishga tushgandan keyingi 12 oyda, soʻm</span></div>
               <div className="a a-right" style={d(900)}><b><Count to={7} suffix="-oy" delay={900} dur={900} /></b><span>oylik break-even</span></div>
               <div className="a a-right" style={d(1100)}><b><Count to={13} suffix="-oy" delay={1100} dur={900} /></b><span>barcha xarajat qoplanadi</span></div>
               <div className="a a-right" style={d(1300)}><b><Count to={400} prefix="≈" suffix="%" delay={1300} /></b><span>ROI, 24 oy · 200 mln soʻm investitsiya</span></div>
@@ -408,7 +436,7 @@ const SLIDES: SlideDef[] = [
               ["Roʻyxatdan oʻtish", "OneID (MED-ID) orqali, shifokor arizasi"],
               ["Shifokor paneli", "bemor kartasi va grafiklar"],
               ["Elektron retsept", "bemor koʻrinishi bilan"],
-              ["Apteka paneli", "buyurtma va retsept tekshiruvi"],
+              ["Bemor ilovasi", "dori eslatmasi va SOS"],
               ["Mobil versiya", "telefon kengligida"],
             ].map(([a, b], i) => (
               <li key={a} className="a a-right" style={d(500 + i * 150)}>

@@ -195,6 +195,16 @@
 /* ---------- pastki panel ---------- */
 .p-progress { position: absolute; top: 0; left: 0; right: 0; height: 4px; background: rgba(127, 150, 170, 0.18); z-index: 5; }
 .p-progress span { display: block; height: 100%; background: linear-gradient(90deg, var(--teal-l), var(--teal)); transition: width 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); }
+/* bilaguzuk slaydi: soat oʻngda katta */
+.p-band { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); gap: 48px; align-items: center; }
+.band-flow { display: flex; flex-direction: column; gap: 14px; }
+.band-row { display: flex; gap: 16px; align-items: center; background: var(--pcard); border: 1px solid var(--pline); border-radius: 18px; padding: 16px 20px; }
+.band-row p { color: var(--pmuted); font-size: 17px; line-height: 1.45; margin-top: 2px; }
+.band-watch { position: relative; display: grid; place-items: center; }
+.band-watch .watch { height: 700px; width: auto; position: relative; filter: drop-shadow(0 40px 70px rgba(0, 0, 0, 0.6)); }
+.band-halo { position: absolute; width: 520px; height: 520px; border-radius: 50%; background: radial-gradient(circle, rgba(46, 196, 209, 0.35), transparent 65%); animation: halo 4s ease-in-out infinite; }
+@keyframes halo { 50% { transform: scale(1.12); opacity: 0.7; } }
+
 /* moslashuv: butun kanvas ekranga masshtablanadi (Pitch.tsx), shuning uchun media-soʻrovlar kerak emas */
 @media (prefers-reduced-motion: reduce) {
   .pitch .a, .enter-next .p-inner, .enter-prev .p-inner { animation: none !important; opacity: 1; }

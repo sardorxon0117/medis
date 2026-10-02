@@ -30,6 +30,7 @@ export function PatientDetail({ patient, plan, state, reasons, vitals, surveys, 
   const [range, setRange] = useState<7 | 30>(7);
   const [limits, setLimits] = useState<Thresholds | undefined>(plan?.thresholds);
   const [planActive, setPlanActive] = useState(plan?.active ?? false);
+  const [newDays, setNewDays] = useState(14);
   const toast = useToast();
   const last = vitals[vitals.length - 1];
   const shown = vitals.slice(-range);
@@ -226,9 +227,9 @@ export function PatientDetail({ patient, plan, state, reasons, vitals, surveys, 
               <div className="stack">
                 <p className="muted">Bemor hozir nazoratda emas.</p>
                 <div className="seg" role="group" aria-label="Muddat">
-                  {[7, 14, 30].map((d) => <button key={d} aria-pressed={d === 14}>{d} kun</button>)}
+                  {[7, 14, 30].map((d) => <button key={d} aria-pressed={d === newDays} onClick={() => setNewDays(d)}>{d} kun</button>)}
                 </div>
-                <button className="btn" onClick={() => toast.show("Bemor 14 kunlik nazoratga olindi")}>Nazoratga olish</button>
+                <button className="btn" onClick={() => toast.show(`Bemor ${newDays} kunlik nazoratga olindi`)}>Nazoratga olish</button>
               </div>
             )}
           </Card>

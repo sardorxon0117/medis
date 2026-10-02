@@ -3,6 +3,7 @@ import { Badge, Card, PageHead } from "@/components/ui";
 import { getClinic } from "@/lib/api";
 import { CURRENT, pricing } from "@/lib/mock-data";
 import { date, som } from "@/lib/format";
+import { ActionButton } from "@/components/Actions";
 
 export const metadata: Metadata = { title: "Pro obuna" };
 
@@ -47,11 +48,11 @@ export default function Page() {
             ) : clinic.proUntil ? (
               <>
                 <Badge tone="teal">Pro faol · {date(clinic.proUntil)} gacha</Badge>
-                <button className="btn">Uzaytirish</button>
-                <button className="btn ghost">Avtomatik toʻlovni oʻchirish</button>
+                <ActionButton message="Pro obuna 1 oyga uzaytirish uchun toʻlov sahifasi ochildi">Uzaytirish</ActionButton>
+                <ActionButton className="btn ghost" message="Avtomatik toʻlov oʻchirildi — obuna muddati tugaguncha amal qiladi">Avtomatik toʻlovni oʻchirish</ActionButton>
               </>
             ) : (
-              <button className="btn">Pro ga oʻtish</button>
+              <ActionButton message="Pro obunaga oʻtish uchun toʻlov sahifasi ochildi">Pro ga oʻtish</ActionButton>
             )}
             <p className="hint">Toʻlov Click, Payme, Uzcard yoki Humo orqali. Elektron chek emailga yuboriladi.</p>
           </div>
