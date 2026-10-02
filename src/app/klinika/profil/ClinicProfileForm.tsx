@@ -16,15 +16,14 @@ export function ClinicProfileForm({ clinic }: { clinic: Clinic }) {
       <Card title="Asosiy maʼlumotlar" action={<ApprovalBadge status={clinic.approval} />}>
         <form className="stack" onSubmit={(e) => { e.preventDefault(); toast.show("Klinika profili saqlandi"); }}>
           <div className="form-grid">
-            <div className="field full"><label htmlFor="c-name">Nomi</label><input id="c-name" defaultValue={clinic.name} /></div>
+            <div className="field full"><label htmlFor="c-name">Nomi <span className="muted xs">· reyestrdan</span></label><input id="c-name" defaultValue={clinic.name} readOnly /></div>
             <div className="field">
-              <label htmlFor="c-type">Turi</label>
-              <select id="c-type" defaultValue={clinic.type}><option value="davlat">Davlat</option><option value="xususiy">Xususiy</option></select>
+              <label htmlFor="c-type">Turi <span className="muted xs">· reyestrdan</span></label>
+              <input id="c-type" defaultValue={clinic.type === "davlat" ? "Davlat" : "Xususiy"} readOnly />
             </div>
             <div className="field"><label htmlFor="c-hours">Ish vaqti</label><input id="c-hours" defaultValue={clinic.workHours} /></div>
             <div className="field full"><label htmlFor="c-addr">Manzil</label><input id="c-addr" defaultValue={clinic.address} /></div>
-            <div className="field"><label htmlFor="c-lic">Litsenziya raqami</label><input id="c-lic" defaultValue={clinic.license} /></div>
-            <div className="field"><label htmlFor="c-licf">Litsenziya fayli</label><input id="c-licf" type="file" accept=".pdf,image/*" /></div>
+            <div className="field full"><label htmlFor="c-lic">Litsenziya <span className="muted xs">· litsenziyalar reyestridan</span></label><input id="c-lic" defaultValue={`${clinic.license} — amalda`} readOnly /></div>
             <div className="field full">
               <span className="label-txt">Xizmatlar</span>
               <div className="chips">

@@ -16,11 +16,11 @@ export function ProfileForm({ doctor }: { doctor: Doctor }) {
         }}
       >
         <div className="form-grid">
-          <div className="field"><label htmlFor="pf-name">F.I.Sh.</label><input id="pf-name" defaultValue={doctor.fullName} /></div>
-          <div className="field"><label htmlFor="pf-spec">Mutaxassislik</label><input id="pf-spec" defaultValue={doctor.specialty} /></div>
+          <div className="field"><label htmlFor="pf-name">F.I.Sh. <span className="muted xs">· OneID</span></label><input id="pf-name" defaultValue={doctor.fullName} readOnly /></div>
+          <div className="field"><label htmlFor="pf-spec">Mutaxassislik <span className="muted xs">· MED-ID</span></label><input id="pf-spec" defaultValue={doctor.specialty} readOnly /></div>
           <div className="field"><label htmlFor="pf-exp">Tajriba (yil)</label><input id="pf-exp" type="number" defaultValue={doctor.experienceYears} /></div>
           <div className="field"><label htmlFor="pf-price">Qabul narxi, soʻm</label><input id="pf-price" type="number" step={1000} defaultValue={doctor.price} /></div>
-          <div className="field full"><label htmlFor="pf-edu">Taʼlim</label><input id="pf-edu" defaultValue={doctor.education} /></div>
+          <div className="field full"><label htmlFor="pf-edu">Taʼlim <span className="muted xs">· MED-ID</span></label><input id="pf-edu" defaultValue={doctor.education} readOnly /></div>
           <div className="field full">
             <label htmlFor="pf-hours">Ish vaqti</label>
             <input id="pf-hours" defaultValue={doctor.schedule.length ? `${doctor.schedule[0].day}–${doctor.schedule[doctor.schedule.length - 1].day}, ${doctor.schedule[0].from}–${doctor.schedule[0].to}` : ""} />

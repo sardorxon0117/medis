@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import { Icon, type IconName } from "@/components/Icon";
 import { Logo } from "@/components/Logo";
 import type { PanelKey } from "@/lib/nav";
+import { IDENTITIES, MEDID, ORGS_BY_OWNER, type Identity } from "@/lib/registry";
+import { clinics, pharmacies } from "@/lib/mock-data";
 import "./kirish.css";
 
 const roles: { key: PanelKey; label: string; icon: IconName }[] = [
@@ -18,23 +20,15 @@ const roles: { key: PanelKey; label: string; icon: IconName }[] = [
 // ikki bosqichli autentifikatsiya talab qilinadigan rollar (TZ 7.1)
 const TWO_FACTOR: PanelKey[] = ["shifokor", "admin"];
 
-// OneID (MED-ID) qaytaradigan shaxs maʼlumotlari — demo; haqiqiy integratsiyada OAuth javobidan keladi
-interface Identity {
-  fullName: string;
-  pinfl: string;
-  birthDate: string;
-  phone: string;
-}
-const DEMO_ID: Record<PanelKey, Identity> = {
-  shifokor: { fullName: "Karimova Aziza Rustamovna", pinfl: "42103876540017", birthDate: "1987-03-21", phone: "+998 90 123 45 67" },
-  klinika: { fullName: "Usmonov Javohir Bahodirovich", pinfl: "31508824560031", birthDate: "1982-08-15", phone: "+998 93 210 44 05" },
-  apteka: { fullName: "Tursunova Malika Odilovna", pinfl: "42711905670022", birthDate: "1990-11-27", phone: "+998 97 555 18 80" },
-  reklama: { fullName: "Rahimov Dilshod Anvarovich", pinfl: "31902885430011", birthDate: "1988-02-19", phone: "+998 99 404 70 70" },
-  admin: { fullName: "Ergashev Bekzod Sobirovich", pinfl: "30605915670042", birthDate: "1991-05-06", phone: "+998 95 300 12 12" },
-};
+// Shaxs, MED-ID va tashkilotlar maʼlumotlari davlat tizimlaridan keladi (demo: src/lib/registry.ts)
+const DEMO_ID: Record<PanelKey, Identity> = IDENTITIES;
+const orgsOf = (id: Identity | null) => (id ? ORGS_BY_OWNER[id.pinfl] ?? [] : []);
+const ORG_ROLES: PanelKey[] = ["klinika", "apteka", "reklama"];
+// MEDIS ga ulangan tashkilot admin tomonidan tasdiqlanganmi (TZ 4.8)
+const approved = (id: string) => [...clinics, ...pharmacies].find((x) => x.id === id)?.approval !== "tekshirilmoqda";
 
 type Mode = "login" | "register";
-type Step = "start" | "redirect" | "consent" | "phone" | "code" | "totp" | "register" | "pending";
+type Step = "start" | "redirect" | "consent" | "phone" | "code" | "totp" | "org" | "register" | "pending";
 
 export function LoginForm({ initialRole }: { initialRole: PanelKey }) {
   const router = useRouter();
@@ -45,6 +39,7 @@ export function LoginForm({ initialRole }: { initialRole: PanelKey }) {
   const [phone, setPhone] = useState("90 123 45 67");
   const [code, setCode] = useState("");
   const [error, setError] = useState("");
+  const [org, setOrg] = useState<string | null>(null);
 
   const finish = () => router.push(`/${role}`);
   const roleLabel = roles.find((r) => r.key === role)!.label;
@@ -63,10 +58,13 @@ export function LoginForm({ initialRole }: { initialRole: PanelKey }) {
   };
 
   const afterIdentity = () => {
-    setIdentity(DEMO_ID[role]);
+    const id = DEMO_ID[role];
+    setIdentity(id);
     setCode("");
+    const ready = orgsOf(id).filter((o) => o.connected && approved(o.id));
     if (mode === "register") setStep("register");
     else if (TWO_FACTOR.includes(role)) setStep("totp");
+    else if (ORG_ROLES.includes(role) && ready.length) { setOrg(ready[0].id); setStep("org"); }
     else finish();
   };
 
@@ -94,6 +92,7 @@ export function LoginForm({ initialRole }: { initialRole: PanelKey }) {
 
   const title =
     step === "register" ? "Roʻyxatdan oʻtish" :
+    step === "org" ? "Qaysi tashkilot paneliga kirasiz?" :
     step === "redirect" || step === "consent" ? "OneID orqali tasdiqlash" :
     "Panelga kirish";
 
@@ -164,7 +163,8 @@ export function LoginForm({ initialRole }: { initialRole: PanelKey }) {
                   <li>F.I.Sh. va tugʻilgan sana</li>
                   <li>JSHSHIR (shaxsiy identifikatsiya raqami)</li>
                   <li>Telefon raqami</li>
-                  {mode === "register" && role === "shifokor" ? <li>MED-ID: tibbiy xodim maʼlumotlari</li> : null}
+                  {role === "shifokor" ? <li>MED-ID: mutaxassislik, litsenziya va ish joyi</li> : null}
+                  {ORG_ROLES.includes(role) ? <li>Davlat reyestri: nomingizdagi {role === "reklama" ? "kompaniyalar (STIR)" : role === "klinika" ? "klinikalar va litsenziyalar" : "aptekalar va litsenziyalar"}</li> : null}
                 </ul>
                 <p className="xs muted">Ruxsatni istalgan vaqtda profil sozlamalarida qaytarib olishingiz mumkin.</p>
               </div>
@@ -201,6 +201,27 @@ export function LoginForm({ initialRole }: { initialRole: PanelKey }) {
             </form>
           )}
 
+          {step === "org" && identity && (
+            <div className="stack">
+              <IdentityCard id={identity} />
+              <p className="small muted">Davlat reyestri boʻyicha sizning nomingizdagi tashkilotlar:</p>
+              <div className="stack-sm">
+                {orgsOf(identity).map((o) => {
+                  const ok = o.connected && approved(o.id);
+                  return (
+                    <label key={o.id} className={`org-pick${org === o.id ? " on" : ""}${ok ? "" : " done"}`} style={ok ? undefined : { opacity: 0.6 }}>
+                      <input type="radio" name="org" disabled={!ok} checked={org === o.id} onChange={() => setOrg(o.id)} />
+                      <span className="grow"><b>{o.name}</b><small>{o.address}{o.license ? ` · litsenziya ${o.license}` : ""}</small></span>
+                      {!o.connected ? <span className="badge">Ulanmagan</span> : !ok ? <span className="badge warn">Admin tasdigʻi kutilmoqda</span> : null}
+                    </label>
+                  );
+                })}
+              </div>
+              {orgsOf(identity).some((o) => !o.connected) && <p className="hint">Ulanmagan tashkilotni “OneID orqali roʻyxatdan oʻtish” orqali qoʻshing.</p>}
+              <button className="btn" onClick={finish}>{roleLabel} paneliga kirish</button>
+            </div>
+          )}
+
           {step === "totp" && (
             <form className="stack" onSubmit={submitTotp}>
               {identity ? <IdentityCard id={identity} /> : null}
@@ -215,15 +236,14 @@ export function LoginForm({ initialRole }: { initialRole: PanelKey }) {
             </form>
           )}
 
-          {step === "register" && identity && <RegisterForm role={role} identity={identity} onDone={() => setStep("pending")} onBack={() => setStep("start")} />}
+          {step === "register" && identity && <RegisterForm role={role} identity={identity} onDone={(instant) => (instant ? finish() : setStep("pending"))} onBack={() => setStep("start")} />}
 
           {step === "pending" && (
             <div className="stack center">
               <span className="pending-ic"><Icon name="clock" size={30} /></span>
-              <h2>Arizangiz tekshirilmoqda</h2>
+              <h2>Ulanish arizasi yuborildi</h2>
               <p className="muted">
-                Shaxsingiz OneID orqali tasdiqlandi. Endi litsenziya va hujjatlaringizni platforma administratori tekshiradi (odatda 1 ish kuni). Tasdiqlangach SMS keladi.
-                {role === "shifokor" ? " Tasdiqlanmaguncha retsept yozish yopiq boʻladi." : ""}
+                Shaxsingiz OneID orqali, tashkilot va litsenziya maʼlumotlari davlat reyestridan olindi. Platforma administratori ulanishni tasdiqlaydi (odatda 1 ish kuni), tasdiqlangach SMS keladi.
               </p>
               <button className="btn" onClick={finish}>Demo panelni koʻrish</button>
             </div>
@@ -248,66 +268,62 @@ function IdentityCard({ id }: { id: Identity }) {
   );
 }
 
-function RegisterForm({ role, identity, onDone, onBack }: { role: PanelKey; identity: Identity; onDone: () => void; onBack: () => void }) {
-  // shaxs maʼlumotlari (F.I.Sh., JSHSHIR, telefon) OneID dan keladi — bu yerda faqat rolga xos maydonlar
-  const fields: Record<PanelKey, { id: string; label: string; type?: string; full?: boolean; options?: string[] }[]> = {
-    shifokor: [
-      { id: "spec", label: "Mutaxassislik", options: ["Umumiy jarroh", "Travmatolog-ortoped", "Kardiolog", "Ginekolog", "Nevrolog", "Urolog", "Terapevt"] },
-      { id: "clinic", label: "Klinika" },
-      { id: "lic", label: "Litsenziya raqami", full: true },
-      { id: "file", label: "Litsenziya fayli (PDF, JPG)", type: "file", full: true },
-    ],
-    klinika: [
-      { id: "name", label: "Klinika nomi", full: true },
-      { id: "type", label: "Turi", options: ["Davlat", "Xususiy"] },
-      { id: "lic", label: "Litsenziya raqami" },
-      { id: "addr", label: "Manzil", full: true },
-      { id: "hours", label: "Ish vaqti" },
-      { id: "file", label: "Litsenziya fayli", type: "file", full: true },
-    ],
-    apteka: [
-      { id: "name", label: "Apteka nomi", full: true },
-      { id: "lic", label: "Litsenziya raqami" },
-      { id: "hours", label: "Ish vaqti" },
-      { id: "addr", label: "Manzil", full: true },
-      { id: "file", label: "Litsenziya fayli", type: "file", full: true },
-    ],
-    reklama: [
-      { id: "name", label: "Kompaniya nomi", full: true },
-      { id: "inn", label: "STIR (INN)" },
-      { id: "cat", label: "Faoliyat sohasi", options: ["Klinika", "Apteka tarmogʻi", "Sport", "Sugʻurta"] },
-      { id: "email", label: "Email", type: "email", full: true },
-    ],
-    admin: [],
-  };
+function RegisterForm({ role, identity, onDone, onBack }: { role: PanelKey; identity: Identity; onDone: (instant: boolean) => void; onBack: () => void }) {
+  const doc = role === "shifokor" ? MEDID[identity.pinfl] : undefined;
+  const orgs = orgsOf(identity);
+  const [picked, setPicked] = useState<string[]>(() => orgs.filter((o) => !o.connected).map((o) => o.id));
 
   return (
     <form
       className="stack"
       onSubmit={(e) => {
         e.preventDefault();
-        onDone();
+        onDone(role === "shifokor"); // shifokor litsenziyasi MED-ID dan tasdiqlangan — kutish shart emas
       }}
     >
       <IdentityCard id={identity} />
-      <div className="form-grid">
-        {fields[role].map((f) => (
-          <div className={`field${f.full ? " full" : ""}`} key={f.id}>
-            <label htmlFor={`r-${f.id}`}>{f.label}</label>
-            {f.options ? (
-              <select id={`r-${f.id}`}>{f.options.map((o) => <option key={o}>{o}</option>)}</select>
-            ) : (
-              <input id={`r-${f.id}`} type={f.type ?? "text"} required={f.type !== "file"} />
-            )}
-          </div>
-        ))}
-      </div>
-      {role === "apteka" || role === "klinika" ? <p className="hint">Ulanish bepul. Davlat klinikalari uchun barcha funksiyalar bepul.</p> : null}
+
+      {role === "shifokor" && (doc ? (
+        <div className="identity">
+          <div className="row"><Icon name="stethoscope" size={18} /><b>MED-ID: tibbiy xodim maʼlumotlari</b></div>
+          <dl className="kv small">
+            <dt>Mutaxassislik</dt><dd>{doc.specialty} · {doc.category}</dd>
+            <dt>Litsenziya</dt><dd className="mono">{doc.licenseNo} · {doc.licenseUntil.split("-").reverse().join(".")} gacha</dd>
+            <dt>Taʼlim</dt><dd>{doc.education}</dd>
+            <dt>Ish joyi</dt><dd>{doc.workplaces.map((w) => `${w.name} (${w.position})`).join("; ")}</dd>
+          </dl>
+          <span className="badge ok" style={{ justifySelf: "start" }}>Litsenziya amalda — retsept yozish ochiq</span>
+        </div>
+      ) : (
+        <div className="alert-row xavf"><span className="bar" /><div className="small">MED-ID da tibbiy xodim yozuvi topilmadi. Ish joyingiz kadrlar boʻlimiga murojaat qiling.</div></div>
+      ))}
+
+      {ORG_ROLES.includes(role) && (
+        <div className="stack-sm">
+          <span className="label-txt">{role === "reklama" ? "Nomingizdagi kompaniyalar (soliq reyestri)" : `Nomingizdagi ${role === "klinika" ? "klinikalar" : "aptekalar"} (litsenziyalar reyestri)`}</span>
+          {orgs.length ? orgs.map((o) => (
+            <label key={o.id} className={`org-pick${o.connected || picked.includes(o.id) ? " on" : ""}${o.connected ? " done" : ""}`}>
+              <input type="checkbox" disabled={o.connected} checked={o.connected || picked.includes(o.id)} onChange={(e) => setPicked(e.target.checked ? [...picked, o.id] : picked.filter((x) => x !== o.id))} />
+              <span className="grow">
+                <b>{o.name}</b>
+                <small>STIR {o.inn}{o.license ? ` · litsenziya ${o.license} (${o.licenseUntil?.split("-").reverse().join(".")} gacha)` : ""}{o.type ? ` · ${o.type}` : ""}</small>
+                <small>{o.address}</small>
+              </span>
+              {o.connected ? (approved(o.id) ? <span className="badge ok">MEDIS ga ulangan</span> : <span className="badge warn">Admin tasdigʻi kutilmoqda</span>) : null}
+            </label>
+          )) : <p className="hint">Reyestrda nomingizga tashkilot topilmadi.</p>}
+          <p className="hint">Nomi, STIR, litsenziya va manzil reyestrdan olinadi — qoʻlda kiritilmaydi. Ish vaqti va xizmatlarni ulangandan keyin panelda sozlaysiz.</p>
+        </div>
+      )}
+
+      {role === "klinika" || role === "apteka" ? <p className="hint">Ulanish bepul. Davlat klinikalari uchun barcha funksiyalar bepul.</p> : null}
       <label className="check">
         <input type="checkbox" required />
         <span>Shaxsga doir maʼlumotlarni qayta ishlash shartlariga roziman</span>
       </label>
-      <button className="btn">Arizani yuborish</button>
+      <button className="btn" disabled={role === "shifokor" ? !doc : !picked.length}>
+        {role === "shifokor" ? "Panelga kirish" : `Tanlanganlarni ulash (${picked.length})`}
+      </button>
       <button type="button" className="btn ghost" onClick={onBack}>Bekor qilish</button>
     </form>
   );

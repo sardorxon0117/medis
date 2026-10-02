@@ -54,7 +54,7 @@ export function ApprovalQueue({ initial }: { initial: Applicant[] }) {
           <Card key={a.id} title={<>{a.name} <span className="xs muted">· {a.kind}</span></>} action={<ApprovalBadge status={a.status} />}>
             <div className="stack">
               <dl className="kv">{a.details.map(([k, v]) => <Fragment key={k}><dt>{k}</dt><dd>{v}</dd></Fragment>)}</dl>
-              <button className="btn ghost sm" style={{ justifySelf: "start" }} onClick={() => toast.show("Hujjat himoyalangan saqlovdan ochilmoqda…")}><Icon name="file" size={16} />Litsenziya / hujjatni koʻrish</button>
+              <button className="btn ghost sm" style={{ justifySelf: "start" }} onClick={() => toast.show("MED-ID / litsenziyalar reyestridagi yozuv ochildi")}><Icon name="shield" size={16} />Davlat reyestridagi yozuvni koʻrish</button>
               {a.status === "tekshirilmoqda" && (rejecting === a.id ? (
                 <form className="stack-sm" onSubmit={(e) => { e.preventDefault(); decide(a, "rad_etilgan", `${a.name} rad etildi, sabab SMS orqali yuborildi`); }}>
                   <label className="label-txt" htmlFor={`why-${a.id}`}>Rad etish sababi</label>

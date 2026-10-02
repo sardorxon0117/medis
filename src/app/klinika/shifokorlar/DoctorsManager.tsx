@@ -5,18 +5,23 @@ import { Icon } from "@/components/Icon";
 import { ApprovalBadge, Card } from "@/components/ui";
 import { useToast } from "@/components/useToast";
 import { initials, som } from "@/lib/format";
+import { findInMedId } from "@/lib/registry";
 import type { Doctor } from "@/lib/types";
 
 interface Invite {
+  name: string;
   phone: string;
   specialty: string;
+  license: string;
 }
 
 export function DoctorsManager({ initial }: { initial: Doctor[] }) {
   const [list, setList] = useState(initial);
-  const [invites, setInvites] = useState<Invite[]>([{ phone: "+998 95 120 30 40", specialty: "Terapevt" }]);
-  const [phone, setPhone] = useState("");
-  const [specialty, setSpecialty] = useState("");
+  const [invites, setInvites] = useState<Invite[]>([]);
+  const [query, setQuery] = useState("");
+  // shifokor maʼlumoti va litsenziyasi MED-ID dan olinadi — klinika qoʻlda kiritmaydi
+  const hit = findInMedId(query);
+  const already = hit ? invites.some((i) => i.license === hit[1].licenseNo) : false;
   const toast = useToast();
 
   return (
@@ -62,21 +67,33 @@ export function DoctorsManager({ initial }: { initial: Doctor[] }) {
             className="stack"
             onSubmit={(e) => {
               e.preventDefault();
-              setInvites([{ phone, specialty }, ...invites]);
-              toast.show(`${phone} raqamiga SMS-taklif yuborildi`);
-              setPhone("");
-              setSpecialty("");
+              if (!hit || already) return;
+              const [, d] = hit;
+              setInvites([{ name: d.fullName, phone: d.phone, specialty: d.specialty, license: d.licenseNo }, ...invites]);
+              toast.show(`${d.fullName} ga taklif yuborildi (SMS va MEDIS ilovasi)`);
+              setQuery("");
             }}
           >
-            <div className="field"><label htmlFor="inv-phone">Telefon raqami</label><input id="inv-phone" type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="+998 90 000 00 00" required /></div>
-            <div className="field"><label htmlFor="inv-spec">Mutaxassislik</label><input id="inv-spec" value={specialty} onChange={(e) => setSpecialty(e.target.value)} required /></div>
-            <button className="btn"><Icon name="plus" size={16} />Taklif yuborish</button>
+            <div className="field">
+              <label htmlFor="inv-q">Telefon yoki JSHSHIR</label>
+              <input id="inv-q" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Demo: 95 120 30 40" />
+              <span className="hint">Shifokor MED-ID dan qidiriladi: mutaxassislik va litsenziya avtomatik keladi.</span>
+            </div>
+            {query.replace(/\D/g, "").length >= 7 && (hit ? (
+              <div className="card" style={{ background: "var(--ok-soft)", borderColor: "transparent", padding: 14 }}>
+                <div className="row small" style={{ color: "var(--ok)" }}><Icon name="shield" size={16} /><b>MED-ID da topildi</b></div>
+                <b>{hit[1].fullName}</b>
+                <span className="small">{hit[1].specialty} · {hit[1].category}</span>
+                <span className="small mono">Litsenziya {hit[1].licenseNo} · {hit[1].licenseUntil.split("-").reverse().join(".")} gacha</span>
+              </div>
+            ) : <span className="small" style={{ color: "var(--danger)" }}>MED-ID da bunday tibbiy xodim topilmadi</span>)}
+            <button className="btn" disabled={!hit || already}><Icon name="plus" size={16} />{already ? "Taklif yuborilgan" : "Taklif yuborish"}</button>
           </form>
         </Card>
         <Card title="Kutilayotgan takliflar">
           {invites.length ? invites.map((i) => (
-            <div key={i.phone} className="spread small" style={{ padding: "8px 0", borderBottom: "1px solid var(--line)" }}>
-              <span><b className="mono">{i.phone}</b><div className="xs muted">{i.specialty}</div></span>
+            <div key={i.license} className="spread small" style={{ padding: "8px 0", borderBottom: "1px solid var(--line)" }}>
+              <span><b>{i.name}</b><div className="xs muted">{i.specialty} · {i.license} · {i.phone}</div></span>
               <button className="btn ghost xs" onClick={() => setInvites(invites.filter((x) => x !== i))}>Bekor qilish</button>
             </div>
           )) : <span className="muted small">Taklif yoʻq</span>}

@@ -27,7 +27,7 @@ export default function Page() {
                 <span className="muted">{d.specialty} · {d.experienceYears} yil tajriba</span>
                 <div className="row wrap-row small">
                   <span><Icon name="star" size={14} /> <b>{d.rating}</b> ({d.reviews} sharh)</span>
-                  <span className="muted">Litsenziya <span className="mono">{d.licenseNo}</span></span>
+                  <span className="muted">Litsenziya <span className="mono">{d.licenseNo}</span> · MED-ID dan</span>
                   <ApprovalBadge status={d.approval} />
                 </div>
                 <span className="small muted">{d.clinicIds.map((id) => getClinic(id)?.name).join(" · ")}</span>

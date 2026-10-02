@@ -15,11 +15,10 @@ export default function Page() {
         <Card title="Maʼlumotlar" action={<ApprovalBadge status={ph.approval} />}>
           <SaveForm message="Apteka profili saqlandi">
             <div className="form-grid">
-              <div className="field full"><label htmlFor="ph-name">Apteka nomi</label><input id="ph-name" defaultValue={ph.name} /></div>
-              <div className="field"><label htmlFor="ph-lic">Litsenziya</label><input id="ph-lic" defaultValue={ph.license} /></div>
+              <div className="field full"><label htmlFor="ph-name">Apteka nomi <span className="muted xs">· reyestrdan</span></label><input id="ph-name" defaultValue={ph.name} readOnly /></div>
+              <div className="field"><label htmlFor="ph-lic">Litsenziya <span className="muted xs">· reyestrdan</span></label><input id="ph-lic" defaultValue={`${ph.license} — amalda`} readOnly /></div>
               <div className="field"><label htmlFor="ph-hours">Ish vaqti</label><input id="ph-hours" defaultValue={ph.workHours} /></div>
               <div className="field full"><label htmlFor="ph-addr">Manzil</label><input id="ph-addr" defaultValue={ph.address} /></div>
-              <div className="field full"><label htmlFor="ph-file">Litsenziya fayli</label><input id="ph-file" type="file" accept=".pdf,image/*" /></div>
             </div>
             <button className="btn">Saqlash</button>
           </SaveForm>
