@@ -179,10 +179,6 @@
 .p-url { font-family: var(--f-display); font-size: 60px; font-weight: 700; color: var(--teal-l); word-break: break-all; }
 .p-btn { align-self: flex-start; display: inline-flex; gap: 10px; align-items: center; background: var(--teal-l); color: #06202a; font-weight: 800; text-decoration: none; padding: 14px 24px; border-radius: 14px; font-size: 18px; transition: transform 0.2s; }
 .p-btn:hover { transform: translateX(6px); }
-.p-check { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
-.p-check li { display: flex; gap: 14px; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--pline); font-size: 21px; color: var(--pmuted); }
-.p-check b { color: var(--pfg); }
-.tick { width: 30px; height: 30px; border-radius: 50%; background: var(--teal-l); color: #06202a; display: grid; place-items: center; flex: none; }
 
 /* yakun */
 .p-end { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 31px; position: relative; }
@@ -195,11 +191,11 @@
 /* ---------- pastki panel ---------- */
 .p-progress { position: absolute; top: 0; left: 0; right: 0; height: 4px; background: rgba(127, 150, 170, 0.18); z-index: 5; }
 .p-progress span { display: block; height: 100%; background: linear-gradient(90deg, var(--teal-l), var(--teal)); transition: width 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); }
-/* demo slaydidagi QR */
-.p-qr-row { display: flex; gap: 28px; align-items: center; }
-.p-qr { display: grid; justify-items: center; gap: 10px; background: #ffffff; border-radius: 26px; padding: 16px 16px 12px; box-shadow: 0 0 0 6px rgba(46, 196, 209, 0.18), 0 30px 60px -30px rgba(0, 0, 0, 0.7); animation-name: a-pop; }
-.p-qr span { font-size: 14px; font-weight: 700; color: #4a5a70; }
-.p-qr .qr { display: block; }
+/* demo slaydi: katta oq QR qorongʻi fonda */
+.p-demo { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 64px; align-items: center; }
+.p-qr-big { position: relative; display: grid; place-items: center; padding: 20px; }
+.p-qr-big .qr { position: relative; display: block; border-radius: 28px; box-shadow: 0 0 0 1px rgba(46, 196, 209, 0.25), 0 40px 80px -40px rgba(0, 0, 0, 0.8); }
+.p-qr-glow { position: absolute; inset: -40px; border-radius: 50%; background: radial-gradient(circle, rgba(46, 196, 209, 0.22), transparent 70%); animation: halo 4s ease-in-out infinite; }
 
 /* bilaguzuk slaydi: soat oʻngda katta */
 .p-band { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); gap: 48px; align-items: center; }

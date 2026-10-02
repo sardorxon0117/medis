@@ -423,38 +423,19 @@ const SLIDES: SlideDef[] = [
   {
     id: "demo", role: "CTO", theme: "dark",
     render: () => (
-      <>
-        <Head eyebrow="CTO · Live demo" title="Endi — jonli saytda" />
-        <div className="p-split">
-          <div className="stack-l">
-            <p className="p-text a a-left" style={d(250)}>Websaytimiz manzili</p>
-            <p className="p-url a a-pop" style={d(400)}>medis.tayyorr.uz</p>
-            <div className="p-qr-row">
-              <div className="p-qr a a-pop" style={d(650)}>
-                <QrCode size={230} />
-                <span>Telefon kamerasi bilan skanerlang</span>
-              </div>
-              <a href="/" target="_blank" rel="noopener noreferrer" className="p-btn a a-up" style={d(600)}>Saytni ochish <span aria-hidden="true">↗</span></a>
-            </div>
-          </div>
-          <ol className="p-check">
-            {[
-              ["Bosh sahifa", "toʻliq yuklanishi va tezligi"],
-              ["Menyu", "Qanday ishlaydi · Kimlar uchun · Narxlar"],
-              ["Roʻyxatdan oʻtish", "OneID (MED-ID) orqali, shifokor arizasi"],
-              ["Shifokor paneli", "bemor kartasi va grafiklar"],
-              ["Elektron retsept", "bemor koʻrinishi bilan"],
-              ["Bemor ilovasi", "dori eslatmasi va SOS"],
-              ["Mobil versiya", "telefon kengligida"],
-            ].map(([a, b], i) => (
-              <li key={a} className="a a-right" style={d(500 + i * 150)}>
-                <span className="tick a a-pop" style={d(650 + i * 150)}><Icon name="check" size={18} /></span>
-                <span><b>{a}</b> — {b}</span>
-              </li>
-            ))}
-          </ol>
+      <div className="p-demo">
+        <div className="stack-l">
+          <Head eyebrow="CTO · Live demo" title="Endi — jonli saytda" />
+          <p className="p-text a a-left" style={d(250)}>Websaytimiz manzili</p>
+          <p className="p-url a a-pop" style={d(400)}>medis.tayyorr.uz</p>
+          <p className="p-text a a-fade" style={d(600)}>Telefon kamerasini QR kodga qarating — sayt darhol ochiladi.</p>
+          <a href="/" target="_blank" rel="noopener noreferrer" className="p-btn a a-up" style={d(750)}>Saytni ochish <span aria-hidden="true">↗</span></a>
         </div>
-      </>
+        <div className="p-qr-big a a-pop" style={d(450)}>
+          <div className="p-qr-glow" />
+          <QrCode size={560} tone="white" />
+        </div>
+      </div>
     ),
   },
   {
