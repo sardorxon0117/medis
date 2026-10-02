@@ -201,7 +201,8 @@
 .band-row { display: flex; gap: 16px; align-items: center; background: var(--pcard); border: 1px solid var(--pline); border-radius: 18px; padding: 16px 20px; }
 .band-row p { color: var(--pmuted); font-size: 17px; line-height: 1.45; margin-top: 2px; }
 .band-watch { position: relative; display: grid; place-items: center; }
-.band-watch .watch { height: 700px; width: auto; position: relative; filter: drop-shadow(0 40px 70px rgba(0, 0, 0, 0.6)); }
+.band-cap { position: relative; font-weight: 800; font-size: 18px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--teal-l); margin-top: 8px; }
+.band-watch .watch { height: 660px; width: auto; position: relative; filter: drop-shadow(0 40px 70px rgba(0, 0, 0, 0.6)); }
 .band-halo { position: absolute; width: 520px; height: 520px; border-radius: 50%; background: radial-gradient(circle, rgba(46, 196, 209, 0.35), transparent 65%); animation: halo 4s ease-in-out infinite; }
 @keyframes halo { 50% { transform: scale(1.12); opacity: 0.7; } }
 

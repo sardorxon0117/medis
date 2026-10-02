@@ -150,13 +150,13 @@ export default function Home() {
                 {["Puls", "Harorat", "SpO₂", "Yiqilish", "Qadam va uyqu"].map((m) => <span key={m} className="badge teal">{m}</span>)}
               </div>
               <div className="band-steps">
-                <div className="band-step"><div><h3>Tayyor qurilmani sotib olamiz</h3><p>Bilaguzukni oʻzimiz ishlab chiqarmaymiz: sertifikatlangan, sinovdan oʻtgan tayyor aqlli soat va bilaguzuklarni ishlab chiqaruvchilardan ulgurji olamiz.</p></div></div>
-                <div className="band-step"><div><h3>MEDIS ilovasini integratsiya qilamiz</h3><p>Qurilmani MEDIS ilovasiga ulaymiz va sozlaymiz: koʻrsatkichlar avtomatik shifokor paneliga, xavfda — SOS moduliga tushadi.</p></div></div>
-                <div className="band-step"><div><h3>MEDIS brendi bilan sotamiz</h3><p>Ekranida MEDIS logotipi va sozlangan ilova bilan “ochdim — ishlaydi” toʻplami sifatida bemorga, klinikaga va sugʻurta hamkorlariga sotamiz.</p></div></div>
+                <div className="band-step"><div><h3>Aqlli soat ishlab chiqaruvchisi bilan hamkorlik</h3><p>Tajribali aqlli soat brendi bilan birga “MEDIS × hamkor” qoʻshma modelini loyihalaymiz: kerakli datchiklar — puls, SpO₂, harorat, yiqilish — va MEDIS ilovasiga mos dasturiy taʼminot.</p></div></div>
+                <div className="band-step"><div><h3>Buyurtma asosida ishlab chiqariladi</h3><p>Soat bizning buyurtmamiz boʻyicha hamkor zavodida chiqariladi: korpusi va ekranida MEDIS logotipi, maʼlumot toʻgʻridan-toʻgʻri MEDIS ga uzatiladi. Zavod va sertifikatlash — hamkor tomonida.</p></div></div>
+                <div className="band-step"><div><h3>Ilova bilan birga sotamiz</h3><p>Qutidan chiqqanda MEDIS ilovasiga ulangan: koʻrsatkichlar shifokor paneliga, xavf — SOS ga. Bemorga, klinikaga va sugʻurta hamkorlariga sotamiz.</p></div></div>
               </div>
-              <p className="band-note">Shuning uchun bizda ishlab chiqarish va sertifikatlash xarajati yoʻq, qurilmani esa bir necha haftada bozorga chiqarish mumkin.</p>
+              <p className="band-note">Shunday qilib, zavod qurish va qurilmani noldan sertifikatlash shart emas — soat esa oddiy fitnes-soat emas, aynan MEDIS ilovasi va shifokor nazorati uchun moslab chiqariladi.</p>
             </div>
-            <div className="band-visual"><Watch /></div>
+            <div className="band-visual"><Watch /><span className="band-cap">MEDIS × hamkor · qoʻshma model</span></div>
           </div>
         </section>
 
@@ -231,7 +231,7 @@ export default function Home() {
               <div className="phase now"><b>MVP ishlab chiqish</b><span className="muted small">1–4 oy</span><ul><li>Bemor ilovasi</li><li>Shifokor paneli</li><li>Retsept, eslatma, SOS</li><li>Apteka va toʻlov</li></ul></div>
               <div className="phase"><b>Pilot</b><span className="muted small">5–6 oy</span><ul><li>2 ta klinika</li><li>300 ta bemor</li><li>Natijani oʻlchash</li></ul></div>
               <div className="phase"><b>Kengayish</b><span className="muted small">7–12 oy</span><ul><li>Toshkent: 20 klinika</li><li>Reels va reklama</li><li>Premium, Klinika Pro</li><li>MED-ID integratsiyasi</li></ul></div>
-              <div className="phase"><b>2-yil</b><span className="muted small">13–24 oy</span><ul><li>MEDIS bilaguzuk toʻplami</li><li>103 bilan integratsiya</li><li>Viloyatlar</li><li>Sugʻurta hamkorligi</li></ul></div>
+              <div className="phase"><b>2-yil</b><span className="muted small">13–24 oy</span><ul><li>“MEDIS × hamkor” aqlli soati</li><li>103 bilan integratsiya</li><li>Viloyatlar</li><li>Sugʻurta hamkorligi</li></ul></div>
             </div>
           </div>
         </section>

@@ -51,7 +51,7 @@ export default function Page() {
       )}
       <div className="m-card">
         <b>MEDIS bilaguzugi</b>
-        <span className="m-muted" style={{ fontSize: 14 }}>Tayyor sertifikatlangan qurilma, MEDIS ilovasi oldindan sozlangan — qutidan chiqarib taqsangiz bas. Klinikangiz yoki MEDIS orqali buyurtma qiling.</span>
+        <span className="m-muted" style={{ fontSize: 14 }}>Aqlli soat ishlab chiqaruvchisi bilan hamkorlikda chiqarilgan “MEDIS × hamkor” modeli — ilovamizga moslab yaratilgan, qutidan chiqarib taqsangiz bas. Klinikangiz yoki MEDIS orqali buyurtma qiling.</span>
       </div>
     </div>
   );

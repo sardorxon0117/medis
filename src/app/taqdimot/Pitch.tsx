@@ -188,9 +188,9 @@ const SLIDES: SlideDef[] = [
           <p className="p-text a a-fade" style={d(300)}>Puls, harorat, SpO₂, yiqilish va uyqu — bemor hech narsa bosmasa ham shifokorga yetadi. Xavf boʻlsa — avtomatik SOS.</p>
           <div className="band-flow">
             {([
-              ["box", "Sotib olamiz", "Tayyor, sertifikatlangan aqlli soat va bilaguzuklar — oʻzimiz ishlab chiqarmaymiz"],
-              ["settings", "Integratsiya qilamiz", "MEDIS ilovasiga ulaymiz: koʻrsatkichlar shifokor paneliga, xavf — SOS ga"],
-              ["star", "MEDIS brendi bilan sotamiz", "Logotip va sozlangan ilova bilan tayyor toʻplam: bemor, klinika, sugʻurta"],
+              ["users", "Hamkorlik", "Aqlli soat ishlab chiqaruvchisi bilan “MEDIS × hamkor” qoʻshma modeli"],
+              ["box", "Buyurtma asosida", "Bizning ilovamizga moslab hamkor zavodida chiqariladi — logotip MEDIS"],
+              ["star", "Ilova bilan sotamiz", "Qutidan chiqqanda MEDIS ga ulangan: bemor, klinika, sugʻurta"],
             ] as [IconName, string, string][]).map(([ic, t, x], i) => (
               <div key={t} className="band-row a a-left" style={d(450 + i * 200)}>
                 <span className="p-ic"><Icon name={ic} size={26} /></span>
@@ -202,6 +202,7 @@ const SLIDES: SlideDef[] = [
         <div className="band-watch a a-pop" style={d(250)}>
           <div className="band-halo" />
           <Watch />
+          <span className="band-cap">MEDIS × hamkor</span>
         </div>
       </div>
     ),
