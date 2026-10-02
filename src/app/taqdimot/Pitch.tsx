@@ -93,7 +93,7 @@ function Ecg({ className = "" }: { className?: string }) {
 // Jamoa: rasmlar web/public/team/<rol>-face.jpg (asl suratdan bosh-yelka qirqimi); rasm yoʻq boʻlsa bosh harflar
 const TEAM: { role: Role; name: string; job: string; photo: string; color: string }[] = [
   { role: "CEO", name: "Zahro Tursunboyeva", job: "Asoschi · strategiya va hamkorlar", photo: "/team/ceo-face.jpg", color: "#2ec4d1" },
-  { role: "CMO", name: "Iqboljon Usmonaliyev", job: "Marketing va brend", photo: "/team/cmo-face.jpg", color: "#9b82f0" },
+  { role: "CMO", name: "Xushnudbek Nurullayev", job: "Marketing va brend", photo: "/team/cmo-face.jpg", color: "#9b82f0" },
   { role: "CFO", name: "Zuhra Kuchkorova", job: "Moliya va investitsiya", photo: "/team/cfo-face.jpg", color: "#f0b429" },
   { role: "CTO", name: "Sarvar Fayzullayev", job: "Texnologiya va mahsulot", photo: "/team/cto-face.jpg", color: "#5b9cff" },
 ];
