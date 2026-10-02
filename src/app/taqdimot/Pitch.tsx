@@ -89,12 +89,12 @@ function Ecg({ className = "" }: { className?: string }) {
   );
 }
 
-// Jamoa: rasmlar web/public/team/<rol>.jpg dan olinadi; rasm yoʻq boʻlsa bosh harflar koʻrinadi
+// Jamoa: rasmlar web/public/team/<rol>-face.jpg (asl suratdan bosh-yelka qirqimi); rasm yoʻq boʻlsa bosh harflar
 const TEAM: { role: Role; name: string; job: string; photo: string; color: string }[] = [
-  { role: "CEO", name: "[Ism Familiya]", job: "Asoschi · strategiya va hamkorlar", photo: "/team/ceo.jpg", color: "#2ec4d1" },
-  { role: "CMO", name: "[Ism Familiya]", job: "Marketing va brend", photo: "/team/cmo.jpg", color: "#9b82f0" },
-  { role: "CFO", name: "[Ism Familiya]", job: "Moliya va investitsiya", photo: "/team/cfo.jpg", color: "#f0b429" },
-  { role: "CTO", name: "[Ism Familiya]", job: "Texnologiya va mahsulot", photo: "/team/cto.jpg", color: "#5b9cff" },
+  { role: "CEO", name: "Zahro Tursunboyeva", job: "Asoschi · strategiya va hamkorlar", photo: "/team/ceo-face.jpg", color: "#2ec4d1" },
+  { role: "CMO", name: "Iqboljon Usmonaliyev", job: "Marketing va brend", photo: "/team/cmo-face.jpg", color: "#9b82f0" },
+  { role: "CFO", name: "Zuhra Kuchkorova", job: "Moliya va investitsiya", photo: "/team/cfo-face.jpg", color: "#f0b429" },
+  { role: "CTO", name: "Sarvar Fayzullayev", job: "Texnologiya va mahsulot", photo: "/team/cto-face.jpg", color: "#5b9cff" },
 ];
 
 function TeamPhoto({ src, name, role }: { src: string; name: string; role: Role }) {
@@ -113,6 +113,7 @@ const SLIDES: SlideDef[] = [
     id: "cover", role: "CEO", theme: "dark",
     render: () => (
       <div className="p-cover">
+        <div className="p-floor" aria-hidden="true" />
         <div className="blob b1" /><div className="blob b2" />
         <div className="a a-pop" style={d(0)}><Brand light /></div>
         <h1>
@@ -133,7 +134,7 @@ const SLIDES: SlideDef[] = [
         <Head eyebrow="Jamoa" title={<>MEDIS ortidagi <span className="accent">jamoa</span></>} />
         <div className="team-grid">
           {TEAM.map((m, i) => (
-            <div key={m.role} className="team-card a a-up" style={{ ...d(250 + i * 160), "--rc": m.color } as CSSProperties}>
+            <div key={m.role} className="team-card a a-flip" style={{ ...d(250 + i * 160), "--rc": m.color } as CSSProperties}>
               <div className="team-photo"><TeamPhoto src={m.photo} name={m.name} role={m.role} /></div>
               <span className="team-role">{m.role}</span>
               <h3>{m.name}</h3>
@@ -493,6 +494,7 @@ export function Pitch() {
   const [dir, setDir] = useState<"next" | "prev">("next");
   const [idle, setIdle] = useState(false);
   const touch = useRef<number | null>(null);
+  const tiltRef = useRef<HTMLDivElement>(null);
   const n = SLIDES.length;
   const scale = useSyncExternalStore(subscribeResize, fitScale, () => 1);
   const fullscreen = useSyncExternalStore(subscribeFullscreen, isFullscreen, () => false);
@@ -554,6 +556,16 @@ export function Pitch() {
   return (
     <div
       className={`pitch t-${s.theme}${idle ? " idle" : ""}`}
+      onMouseMove={(e) => {
+        const el = tiltRef.current;
+        if (!el) return;
+        el.style.setProperty("--tx", (e.clientX / window.innerWidth - 0.5).toFixed(3));
+        el.style.setProperty("--ty", (e.clientY / window.innerHeight - 0.5).toFixed(3));
+      }}
+      onMouseLeave={() => {
+        tiltRef.current?.style.setProperty("--tx", "0");
+        tiltRef.current?.style.setProperty("--ty", "0");
+      }}
       onTouchStart={(e) => { touch.current = e.touches[0].clientX; }}
       onTouchEnd={(e) => {
         if (touch.current === null) return;
@@ -582,9 +594,11 @@ export function Pitch() {
       </div>
 
       <div className="p-stage" style={{ transform: `translate(-50%, -50%) scale(${scale})` }}>
-        <section key={s.id} className={`p-slide enter-${dir}`} aria-roledescription="slayd" aria-label={`${i + 1} / ${n}`}>
-          <div className="p-inner">{s.render()}</div>
-        </section>
+        <div className="p-tilt" ref={tiltRef}>
+          <section key={s.id} className={`p-slide enter-${dir}`} aria-roledescription="slayd" aria-label={`${i + 1} / ${n}`}>
+            <div className="p-inner">{s.render()}</div>
+          </section>
+        </div>
       </div>
     </div>
   );

@@ -11,13 +11,22 @@
 .pitch.t-dark { background: var(--ink); --pfg: #f6f8fa; --pmuted: #bfd3da; --pcard: #1e2e4a; --pline: #2a3d5e; --paccent: var(--teal-l); }
 .pitch.t-teal { background: linear-gradient(135deg, #0b7480, #0a5a66); --pfg: #fbfdfd; --pmuted: #d4f0f2; --pcard: rgba(255, 255, 255, 0.1); --pline: rgba(255, 255, 255, 0.2); --paccent: #d4f0f2; }
 
-.p-stage { position: absolute; left: 50%; top: 50%; width: 1600px; height: 900px; transform-origin: center; }
-.p-slide { position: absolute; inset: 0; display: grid; place-items: center; }
-.p-inner { width: 100%; max-width: 1440px; padding: 72px 72px; display: flex; flex-direction: column; gap: 31px; position: relative; }
+.p-stage { position: absolute; left: 50%; top: 50%; width: 1600px; height: 900px; transform-origin: center; perspective: 2200px; }
+/* sichqoncha boʻyicha butun slaydni yengil 3D qiyalash (--tx/--ty: -0.5…0.5) */
+.p-tilt { position: absolute; inset: 0; transform-style: preserve-3d; transform: rotateX(calc(var(--ty, 0) * -7deg)) rotateY(calc(var(--tx, 0) * 9deg)); transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.p-slide { position: absolute; inset: 0; display: grid; place-items: center; transform-style: preserve-3d; }
+.p-inner { width: 100%; max-width: 1440px; padding: 72px 72px; display: flex; flex-direction: column; gap: 31px; position: relative; transform-style: preserve-3d; }
 .enter-next .p-inner { animation: in-next 0.7s cubic-bezier(0.2, 0.8, 0.2, 1); }
 .enter-prev .p-inner { animation: in-prev 0.7s cubic-bezier(0.2, 0.8, 0.2, 1); }
-@keyframes in-next { from { transform: translateX(60px); } }
-@keyframes in-prev { from { transform: translateX(-60px); } }
+/* 3D slayd oʻtishi: chuqurlikdan, Y oʻqi atrofida burilib kiradi */
+.enter-next .p-inner, .enter-prev .p-inner { animation-duration: 0.9s !important; }
+@keyframes in-next { from { opacity: 0; transform: translateX(160px) translateZ(-320px) rotateY(-28deg); } }
+@keyframes in-prev { from { opacity: 0; transform: translateX(-160px) translateZ(-320px) rotateY(28deg); } }
+
+/* chuqurlik qatlamlari: qiyalikda parallaks hosil qiladi */
+.p-head { translate: 0 0 70px; }
+.p-card, .team-card, .chain-step, .tl-step, .band-row, .p-value, .p-kpis > div, .p-kpi-list { translate: 0 0 35px; }
+.band-watch, .p-qr-big, .ring { translate: 0 0 110px; }
 
 /* ---------- tipografiya ---------- */
 .pitch h1, .pitch h2, .pitch h3 { font-family: var(--f-display); margin: 0; color: var(--pfg); text-wrap: balance; }
@@ -47,12 +56,12 @@
 .a-flip { animation-name: a-flip; transform-origin: left center; }
 .a-grow { animation-name: a-grow; transform-origin: left center; animation-duration: 1.4s; }
 .a-bar { animation-name: a-bar; transform-origin: bottom; animation-duration: 1s; }
-@keyframes a-up { from { opacity: 0; transform: translateY(36px); } to { opacity: 1; transform: none; } }
+@keyframes a-up { from { opacity: 0; transform: perspective(900px) translateY(40px) rotateX(32deg) translateZ(-60px); } to { opacity: 1; transform: none; } }
 @keyframes a-fade { from { opacity: 0; } to { opacity: 1; } }
-@keyframes a-left { from { opacity: 0; transform: translateX(-56px); } to { opacity: 1; transform: none; } }
-@keyframes a-right { from { opacity: 0; transform: translateX(56px); } to { opacity: 1; transform: none; } }
-@keyframes a-pop { from { opacity: 0; transform: scale(0.6); } to { opacity: 1; transform: none; } }
-@keyframes a-flip { from { opacity: 0; transform: perspective(900px) rotateY(-65deg); } to { opacity: 1; transform: none; } }
+@keyframes a-left { from { opacity: 0; transform: perspective(900px) translateX(-60px) rotateY(28deg); } to { opacity: 1; transform: none; } }
+@keyframes a-right { from { opacity: 0; transform: perspective(900px) translateX(60px) rotateY(-28deg); } to { opacity: 1; transform: none; } }
+@keyframes a-pop { from { opacity: 0; transform: perspective(900px) scale(0.6) rotateY(-40deg) translateZ(-120px); } to { opacity: 1; transform: none; } }
+@keyframes a-flip { from { opacity: 0; transform: perspective(900px) rotateY(-90deg) translateZ(-80px); } to { opacity: 1; transform: none; } }
 @keyframes a-grow { from { opacity: 1; transform: scaleX(0); } to { opacity: 1; transform: none; } }
 @keyframes a-bar { from { opacity: 1; transform: scaleY(0); } to { opacity: 1; transform: none; } }
 
@@ -187,15 +196,30 @@
 /* ---------- pastki panel ---------- */
 .p-progress { position: absolute; top: 0; left: 0; right: 0; height: 4px; background: rgba(127, 150, 170, 0.18); z-index: 5; }
 .p-progress span { display: block; height: 100%; background: linear-gradient(90deg, var(--teal-l), var(--teal)); transition: width 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); }
+/* doimiy 3D harakat */
+.band-watch .watch { animation: watch3d 7s ease-in-out infinite alternate; transform-origin: center; }
+@keyframes watch3d { from { transform: perspective(1400px) rotateY(-22deg) rotateX(6deg); } to { transform: perspective(1400px) rotateY(22deg) rotateX(-4deg); } }
+.p-qr-big .qr { animation: qr3d 6s ease-in-out infinite alternate; }
+@keyframes qr3d { from { transform: perspective(1400px) rotateY(-10deg) rotateX(5deg) translateY(-6px); } to { transform: perspective(1400px) rotateY(10deg) rotateX(-5deg) translateY(6px); } }
+.team-card { transform-style: preserve-3d; }
+.team-card:hover { transform: perspective(900px) rotateY(-10deg) rotateX(6deg) translateY(-6px); }
+.team-card:hover .team-photo { translate: 0 0 40px; }
+.team-photo { transition: translate 0.3s; }
+
+/* muqova: harakatlanuvchi 3D perspektiv toʻr */
+.p-floor { position: absolute; left: -40%; right: -40%; bottom: -150px; height: 620px; transform: perspective(700px) rotateX(68deg); transform-origin: bottom; background-image: linear-gradient(rgba(46, 196, 209, 0.38) 2px, transparent 2px), linear-gradient(90deg, rgba(46, 196, 209, 0.38) 2px, transparent 2px); background-size: 80px 80px; -webkit-mask-image: linear-gradient(to top, #000 10%, transparent 85%); mask-image: linear-gradient(to top, #000 10%, transparent 85%); animation: floor 3s linear infinite; pointer-events: none; }
+@keyframes floor { to { background-position: 0 80px; } }
+
 /* jamoa slaydi */
 .team-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 28px; position: relative; }
 .team-card { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 12px; background: var(--pcard); border: 1px solid var(--pline); border-radius: 28px; padding: 36px 20px 30px; transition: transform 0.25s; }
 .team-card:hover { transform: translateY(-6px); }
 .team-photo { width: 220px; height: 220px; border-radius: 50%; padding: 6px; background: conic-gradient(from 200deg, var(--rc), transparent 60%, var(--rc)); box-shadow: 0 24px 50px -24px var(--rc); }
+.team-photo img { object-position: center 30%; }
 .team-photo img, .team-initials { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: grid; place-items: center; background: #0f1a2e; border: 4px solid var(--ink); }
 .team-initials { font-family: var(--f-display); font-size: 56px; font-weight: 700; color: var(--rc); }
 .team-role { font-size: 15px; font-weight: 800; letter-spacing: 0.14em; padding: 5px 16px; border-radius: 99px; color: #0a1424; background: var(--rc); }
-.team-card h3 { font-size: 26px; }
+.team-card h3 { font-size: 23px; white-space: nowrap; }
 .team-card p { color: var(--pmuted); font-size: 17px; }
 
 /* demo slaydi: katta oq QR qorongʻi fonda */
@@ -220,7 +244,8 @@
   .pitch .a, .enter-next .p-inner, .enter-prev .p-inner { animation: none !important; opacity: 1; }
   .p-ecg path, .ring .fill { animation: none; stroke-dashoffset: 0; }
   .ring .fill { stroke-dashoffset: 270.2; }
-  .blob, .chain-dot, .tl-dot { animation: none !important; }
+  .blob, .chain-dot, .tl-dot, .band-watch .watch, .p-qr-big .qr, .p-floor { animation: none !important; }
+  .p-tilt { transform: none !important; }
   .pulse-ring { display: none; }
 }
 
