@@ -188,6 +188,7 @@ export interface Pharmacy {
   address: string;
   workHours: string;
   approval: ApprovalStatus;
+  distanceKm?: number; // demo: bemor manzilidan masofa
 }
 
 export interface PharmacyStock {

@@ -266,7 +266,7 @@ export default function Home() {
       <footer className="site-foot">
         <div className="wrap">
           <span>© 2026 MEDIS. Shaxsga doir maʼlumotlar Oʻzbekiston hududida saqlanadi.</span>
-          <span><a href="tel:+998977977967">+998 (97) 797 79 67</a> · <Link href="/taqdimot">Startup taqdimoti</Link> · Tez yordam: <b>103</b></span>
+          <span><a href="tel:+998977977967">+998 (97) 797 79 67</a> · <Link href="/mobile">Bemor ilovasi</Link> · <Link href="/taqdimot">Startup taqdimoti</Link> · Tez yordam: <b>103</b></span>
         </div>
       </footer>
     </>

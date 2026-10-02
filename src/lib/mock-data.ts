@@ -305,8 +305,9 @@ export const appointments: Appointment[] = [
 // ---------- aptekalar ----------
 
 export const pharmacies: Pharmacy[] = [
-  { id: "ph1", name: "Dorixona Plus", license: "D-55120", address: "Chilonzor t., Bunyodkor 7", workHours: "24/7", approval: "tasdiqlangan" },
-  { id: "ph2", name: "Grand Pharm", license: "D-44871", address: "Yunusobod t., Amir Temur 92", workHours: "08:00–23:00", approval: "tasdiqlangan" },
+  { id: "ph1", name: "Dorixona Plus", license: "D-55120", address: "Chilonzor t., Bunyodkor 7", workHours: "24/7", approval: "tasdiqlangan", distanceKm: 1.2 },
+  { id: "ph2", name: "Grand Pharm", license: "D-44871", address: "Yunusobod t., Amir Temur 92", workHours: "08:00–23:00", approval: "tasdiqlangan", distanceKm: 4.6 },
+  { id: "ph4", name: "Arzon Apteka", license: "D-58302", address: "Chilonzor t., Qatortol 22", workHours: "08:00–22:00", approval: "tasdiqlangan", distanceKm: 2.3 },
   { id: "ph3", name: "Oxy-Med apteka", license: "D-60214", address: "Sergeli t., Yangi Sergeli 3", workHours: "08:00–22:00", approval: "tekshirilmoqda" },
 ];
 
@@ -322,6 +323,16 @@ export const stock: PharmacyStock[] = [
   { pharmacyId: "ph1", mnn: "Enoxaparin sodium", tradeName: "Kleksan 40 mg №10", price: 412000, qty: 6 },
   { pharmacyId: "ph1", mnn: "Drotaverine", tradeName: "No-shpa 40 mg №24", price: 32000, qty: 64 },
   { pharmacyId: "ph1", mnn: "Diclofenac", tradeName: "Diklofenak 50 mg №20", price: 8900, qty: 80 },
+  // narx solishtirish uchun boshqa aptekalar (B-09)
+  { pharmacyId: "ph2", mnn: "Paracetamol", tradeName: "Panadol 500 mg №12", price: 21000, qty: 60 },
+  { pharmacyId: "ph2", mnn: "Amoxicillin + Clavulanic acid", tradeName: "Augmentin 875/125 №14", price: 118000, qty: 12 },
+  { pharmacyId: "ph2", mnn: "Omeprazole", tradeName: "Omez 20 mg №30", price: 39500, qty: 25 },
+  { pharmacyId: "ph2", mnn: "Pantoprazole", tradeName: "Nolpaza 40 mg №28", price: 92000, qty: 9 },
+  { pharmacyId: "ph2", mnn: "Metronidazole", tradeName: "Trixopol 250 mg №20", price: 9500, qty: 30 },
+  { pharmacyId: "ph4", mnn: "Paracetamol", tradeName: "Paratsetamol 500 mg №10", price: 3900, qty: 200 },
+  { pharmacyId: "ph4", mnn: "Amoxicillin + Clavulanic acid", tradeName: "Amoksiklav 875/125 №14", price: 84500, qty: 7 },
+  { pharmacyId: "ph4", mnn: "Drotaverine", tradeName: "Drotaverin 40 mg №20", price: 9800, qty: 40 },
+  { pharmacyId: "ph4", mnn: "Ibuprofen", tradeName: "Ibuprofen 400 mg №20", price: 14500, qty: 55 },
 ];
 
 export const couriers: Courier[] = [

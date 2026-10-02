@@ -6,6 +6,7 @@ import { useState, useSyncExternalStore } from "react";
 import { Icon } from "./Icon";
 import { Logo } from "./Logo";
 import { PanelSearch } from "./PanelSearch";
+import { PanelSkeleton, SkeletonGate } from "./Skeleton";
 import { panels, type PanelKey } from "@/lib/nav";
 import { initials } from "@/lib/format";
 
@@ -101,7 +102,7 @@ export function PanelShell({ panel, children }: { panel: PanelKey; children: Rea
             </button>
           </div>
         </header>
-        <main className="content">{children}</main>
+        <main className="content"><SkeletonGate key={pathname} fallback={<PanelSkeleton />}>{children}</SkeletonGate></main>
       </div>
     </div>
   );

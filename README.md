@@ -20,6 +20,9 @@ npm run build && npm start
 | `/apteka/*` | A-01 … A-05: buyurtmalar va retsept tekshiruvi, katalog (CSV import), hisobot, profil |
 | `/reklama/*` | Kampaniyalar, yangi reklama (taqiqlangan iboralar tekshiruvi), balans |
 | `/admin/*` | Tasdiqlash, moderatsiya, SOS jurnali, toʻlovlar, narx sozlamalari, audit jurnali |
+| `/mobile/*` | Bemor ilovasi (B-01…B-16): OneID kirish, bosh sahifa va dori eslatmalari, retseptlar, tibbiy karta, soʻrovnoma, bilaguzuk, SOS, apteka va yetkazishni kuzatish, navbat, shifokor qidirish, reels, yaqinlar, chat, baholash, manzillar, profil |
+| `/bemor` | Bemor ilovasining qisqa taqdimot demosi |
+| `/taqdimot` | Animatsiyali startup taqdimoti |
 
 ## Tuzilma
 
@@ -33,4 +36,4 @@ npm run build && npm start
 - Backend (NestJS/FastAPI), haqiqiy autentifikatsiya va saqlash — oʻzgarishlar sahifa yangilanganda yoʻqoladi
 - OneID OAuth (hozir demo oynasi), xarita SDK, toʻlov provayderlari, SMS/push integratsiyalari
 - Til almashtirgich hozircha faqat koʻrinishda (tarjimalar yoʻq)
-- Bemor va kuryer mobil ilovalari (alohida loyiha)
+- Kuryer mobil ilovasi; bemor ilovasi hozircha mobil-veb (`/mobile`), holat brauzerda (localStorage) saqlanadi

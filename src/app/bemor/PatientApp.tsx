@@ -62,7 +62,7 @@ export function PatientApp({
     <div className="pa-page">
       <header className="pa-head wrap">
         <Logo />
-        <Link href="/" className="btn ghost sm">← Bosh sahifa</Link>
+        <div className="row"><Link href="/mobile" className="btn sm">Toʻliq ilovani ochish →</Link><Link href="/" className="btn ghost sm">← Bosh sahifa</Link></div>
       </header>
 
       <main className="pa-main wrap">
