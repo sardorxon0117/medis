@@ -25,8 +25,28 @@
 /* haqiqiy 3D obyektlar (Scene3D, WebGL) */
 .scene3d { pointer-events: none; }
 .scene3d canvas { display: block; }
-.sc-cover { position: absolute; right: -60px; top: 50%; width: 640px; height: 640px; transform: translateY(-50%); }
-.p-cover h1, .p-cover .p-lead { max-width: 880px; }
+/* muqova: shifokor illyustratsiyasi va suzuvchi 3D kartochkalar */
+.dr-hero { position: absolute; right: -30px; top: 50%; width: 560px; height: 690px; transform: translateY(-50%); perspective: 1200px; z-index: 1; }
+.dr-svg { position: absolute; inset: 0; width: 100%; height: 100%; filter: drop-shadow(0 40px 60px rgba(0, 0, 0, 0.45)); -webkit-mask-image: linear-gradient(to bottom, #000 82%, transparent 99%); mask-image: linear-gradient(to bottom, #000 82%, transparent 99%); animation: dr-in 1.1s cubic-bezier(0.2, 0.8, 0.2, 1) 0.3s both; }
+@keyframes dr-in { from { opacity: 0; transform: translateY(60px) scale(0.94); } }
+.dr-orbit { transform-origin: 262px 330px; animation: spin 40s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.dr-ecg { stroke-dasharray: 200; animation: dr-draw 2.4s linear infinite; }
+@keyframes dr-draw { from { stroke-dashoffset: 200; } to { stroke-dashoffset: -200; } }
+.dr-chip { position: absolute; display: flex; gap: 12px; align-items: center; padding: 12px 18px 12px 12px; border-radius: 18px; background: rgba(255, 255, 255, 0.95); color: #1b2a4a; box-shadow: 0 24px 40px -18px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(46, 196, 209, 0.25); transform-style: preserve-3d; animation: chip-in 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) both, chip-float 5s ease-in-out infinite alternate; }
+.dr-chip b { display: block; font-family: var(--f-display); font-size: 22px; line-height: 1.1; }
+.dr-chip small { font-size: 13px; color: #5b6b80; font-weight: 700; }
+.dr-ic { width: 44px; height: 44px; border-radius: 13px; display: grid; place-items: center; background: #d6f0f2; color: #0b8e9b; font-weight: 800; font-size: 17px; }
+.dr-ic.heart { background: #fde4e3; color: #e5484d; animation: dr-beat 1.1s ease-in-out infinite; }
+@keyframes dr-beat { 0%, 100% { transform: scale(1); } 15% { transform: scale(1.18); } 30% { transform: scale(0.96); } 45% { transform: scale(1.1); } }
+.dr-ic.ok { background: #ddf3e8; color: #1f8a5b; font-size: 22px; }
+.dr-chip.c1 { left: -20px; top: 150px; --ry: 18deg; animation-delay: 0.9s, 0.9s; }
+.dr-chip.c2 { right: -20px; top: 250px; --ry: -18deg; animation-delay: 1.15s, 1.4s; }
+.dr-chip.c3 { right: -40px; bottom: 210px; --ry: -14deg; animation-delay: 1.4s, 0.4s; }
+@keyframes chip-in { from { opacity: 0; transform: perspective(900px) rotateY(var(--ry)) translateZ(-160px) scale(0.7); } to { opacity: 1; transform: perspective(900px) rotateY(var(--ry)) translateZ(0); } }
+@keyframes chip-float { from { transform: perspective(900px) rotateY(var(--ry)) rotateX(6deg) translateY(-8px); } to { transform: perspective(900px) rotateY(calc(var(--ry) * 0.4)) rotateX(-4deg) translateY(10px); } }
+.p-cover h1 { max-width: 860px; }
+.p-cover .p-lead { max-width: 640px; }
 /* fon kapsulalari butun slaydni egallaydi (kanvas chetida kesilmasligi uchun) */
 .sc-bg { position: absolute; left: 50%; top: 50%; width: 1600px; height: 900px; transform: translate(-50%, -50%); }
 .p-head, .p-stat, .p-cover > .a, .p-end > *:not(.scene3d) { position: relative; }
@@ -246,7 +266,7 @@
   .pitch .a, .enter-next .p-inner, .enter-prev .p-inner { animation: none !important; opacity: 1; }
   .p-ecg path, .ring .fill { animation: none; stroke-dashoffset: 0; }
   .ring .fill { stroke-dashoffset: 270.2; }
-  .blob, .chain-dot, .tl-dot, .p-qr-big .qr, .p-floor { animation: none !important; }
+  .blob, .chain-dot, .tl-dot, .p-qr-big .qr, .p-floor, .dr-svg, .dr-orbit, .dr-ecg, .dr-chip, .dr-ic { animation: none !important; }
   .pulse-ring { display: none; }
 }
 

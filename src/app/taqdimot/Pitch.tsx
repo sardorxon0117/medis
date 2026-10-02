@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore, type CSSProperties, type ReactNode } from "react";
 import { Icon, type IconName } from "@/components/Icon";
 import { QrCode } from "@/components/QrCode";
+import { DoctorHero } from "@/components/DoctorHero";
 import { Scene3D } from "@/components/Scene3D";
 
 type Role = "CEO" | "CMO" | "CFO" | "CTO";
@@ -115,7 +116,7 @@ const SLIDES: SlideDef[] = [
       <div className="p-cover">
         <div className="p-floor" aria-hidden="true" />
         <div className="blob b1" /><div className="blob b2" />
-        <Scene3D kind="heart" className="sc-cover" />
+        <DoctorHero />
         <div className="a a-pop" style={d(0)}><Brand light /></div>
         <h1>
           {"Shifoxonadan keyin ham".split(" ").map((w, i) => <span key={i} className="word a a-up" style={d(250 + i * 90)}>{w}&nbsp;</span>)}
