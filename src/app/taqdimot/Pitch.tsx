@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore, type CSSProperties, type ReactNode } from "react";
 import { Icon, type IconName } from "@/components/Icon";
 import { QrCode } from "@/components/QrCode";
-import { Watch } from "@/components/Watch";
+import { Scene3D } from "@/components/Scene3D";
 
 type Role = "CEO" | "CMO" | "CFO" | "CTO";
 
@@ -115,6 +115,7 @@ const SLIDES: SlideDef[] = [
       <div className="p-cover">
         <div className="p-floor" aria-hidden="true" />
         <div className="blob b1" /><div className="blob b2" />
+        <Scene3D kind="heart" className="sc-cover" />
         <div className="a a-pop" style={d(0)}><Brand light /></div>
         <h1>
           {"Shifoxonadan keyin ham".split(" ").map((w, i) => <span key={i} className="word a a-up" style={d(250 + i * 90)}>{w}&nbsp;</span>)}
@@ -149,6 +150,7 @@ const SLIDES: SlideDef[] = [
     id: "muammo", role: "CEO", theme: "light",
     render: () => (
       <>
+        <Scene3D kind="pills" className="sc-bg" />
         <Head eyebrow="CEO · Muammo" title="Davolanish shifoxona eshigida uzilib qoladi" />
         <div className="p-stat">
           <div className="ring a a-pop" style={d(200)}>
@@ -236,7 +238,7 @@ const SLIDES: SlideDef[] = [
         </div>
         <div className="band-watch a a-pop" style={d(250)}>
           <div className="band-halo" />
-          <Watch />
+          <Scene3D kind="watch" className="sc-watch" />
           <span className="band-cap">MEDIS × hamkor</span>
         </div>
       </div>
@@ -476,6 +478,7 @@ const SLIDES: SlideDef[] = [
     id: "rahmat", role: "CTO", theme: "light",
     render: () => (
       <div className="p-end">
+        <Scene3D kind="pillsCorners" className="sc-bg" />
         <div className="end-logo a a-pop" style={d(100)}>
           <span className="pulse-ring" />
           <span className="pulse-ring" style={{ animationDelay: "2.3s" }} />
@@ -494,7 +497,6 @@ export function Pitch() {
   const [dir, setDir] = useState<"next" | "prev">("next");
   const [idle, setIdle] = useState(false);
   const touch = useRef<number | null>(null);
-  const tiltRef = useRef<HTMLDivElement>(null);
   const n = SLIDES.length;
   const scale = useSyncExternalStore(subscribeResize, fitScale, () => 1);
   const fullscreen = useSyncExternalStore(subscribeFullscreen, isFullscreen, () => false);
@@ -556,16 +558,6 @@ export function Pitch() {
   return (
     <div
       className={`pitch t-${s.theme}${idle ? " idle" : ""}`}
-      onMouseMove={(e) => {
-        const el = tiltRef.current;
-        if (!el) return;
-        el.style.setProperty("--tx", (e.clientX / window.innerWidth - 0.5).toFixed(3));
-        el.style.setProperty("--ty", (e.clientY / window.innerHeight - 0.5).toFixed(3));
-      }}
-      onMouseLeave={() => {
-        tiltRef.current?.style.setProperty("--tx", "0");
-        tiltRef.current?.style.setProperty("--ty", "0");
-      }}
       onTouchStart={(e) => { touch.current = e.touches[0].clientX; }}
       onTouchEnd={(e) => {
         if (touch.current === null) return;
@@ -594,11 +586,9 @@ export function Pitch() {
       </div>
 
       <div className="p-stage" style={{ transform: `translate(-50%, -50%) scale(${scale})` }}>
-        <div className="p-tilt" ref={tiltRef}>
-          <section key={s.id} className={`p-slide enter-${dir}`} aria-roledescription="slayd" aria-label={`${i + 1} / ${n}`}>
-            <div className="p-inner">{s.render()}</div>
-          </section>
-        </div>
+        <section key={s.id} className={`p-slide enter-${dir}`} aria-roledescription="slayd" aria-label={`${i + 1} / ${n}`}>
+          <div className="p-inner">{s.render()}</div>
+        </section>
       </div>
     </div>
   );

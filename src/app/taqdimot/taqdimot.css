@@ -12,8 +12,7 @@
 .pitch.t-teal { background: linear-gradient(135deg, #0b7480, #0a5a66); --pfg: #fbfdfd; --pmuted: #d4f0f2; --pcard: rgba(255, 255, 255, 0.1); --pline: rgba(255, 255, 255, 0.2); --paccent: #d4f0f2; }
 
 .p-stage { position: absolute; left: 50%; top: 50%; width: 1600px; height: 900px; transform-origin: center; perspective: 2200px; }
-/* sichqoncha boʻyicha butun slaydni yengil 3D qiyalash (--tx/--ty: -0.5…0.5) */
-.p-tilt { position: absolute; inset: 0; transform-style: preserve-3d; transform: rotateX(calc(var(--ty, 0) * -7deg)) rotateY(calc(var(--tx, 0) * 9deg)); transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); }
+
 .p-slide { position: absolute; inset: 0; display: grid; place-items: center; transform-style: preserve-3d; }
 .p-inner { width: 100%; max-width: 1440px; padding: 72px 72px; display: flex; flex-direction: column; gap: 31px; position: relative; transform-style: preserve-3d; }
 .enter-next .p-inner { animation: in-next 0.7s cubic-bezier(0.2, 0.8, 0.2, 1); }
@@ -23,10 +22,15 @@
 @keyframes in-next { from { opacity: 0; transform: translateX(160px) translateZ(-320px) rotateY(-28deg); } }
 @keyframes in-prev { from { opacity: 0; transform: translateX(-160px) translateZ(-320px) rotateY(28deg); } }
 
-/* chuqurlik qatlamlari: qiyalikda parallaks hosil qiladi */
-.p-head { translate: 0 0 70px; }
-.p-card, .team-card, .chain-step, .tl-step, .band-row, .p-value, .p-kpis > div, .p-kpi-list { translate: 0 0 35px; }
-.band-watch, .p-qr-big, .ring { translate: 0 0 110px; }
+/* haqiqiy 3D obyektlar (Scene3D, WebGL) */
+.scene3d { pointer-events: none; }
+.scene3d canvas { display: block; }
+.sc-cover { position: absolute; right: -60px; top: 50%; width: 640px; height: 640px; transform: translateY(-50%); }
+.p-cover h1, .p-cover .p-lead { max-width: 880px; }
+/* fon kapsulalari butun slaydni egallaydi (kanvas chetida kesilmasligi uchun) */
+.sc-bg { position: absolute; left: 50%; top: 50%; width: 1600px; height: 900px; transform: translate(-50%, -50%); }
+.p-head, .p-stat, .p-cover > .a, .p-end > *:not(.scene3d) { position: relative; }
+.sc-watch { position: relative; width: 600px; height: 760px; }
 
 /* ---------- tipografiya ---------- */
 .pitch h1, .pitch h2, .pitch h3 { font-family: var(--f-display); margin: 0; color: var(--pfg); text-wrap: balance; }
@@ -197,8 +201,6 @@
 .p-progress { position: absolute; top: 0; left: 0; right: 0; height: 4px; background: rgba(127, 150, 170, 0.18); z-index: 5; }
 .p-progress span { display: block; height: 100%; background: linear-gradient(90deg, var(--teal-l), var(--teal)); transition: width 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); }
 /* doimiy 3D harakat */
-.band-watch .watch { animation: watch3d 7s ease-in-out infinite alternate; transform-origin: center; }
-@keyframes watch3d { from { transform: perspective(1400px) rotateY(-22deg) rotateX(6deg); } to { transform: perspective(1400px) rotateY(22deg) rotateX(-4deg); } }
 .p-qr-big .qr { animation: qr3d 6s ease-in-out infinite alternate; }
 @keyframes qr3d { from { transform: perspective(1400px) rotateY(-10deg) rotateX(5deg) translateY(-6px); } to { transform: perspective(1400px) rotateY(10deg) rotateX(-5deg) translateY(6px); } }
 .team-card { transform-style: preserve-3d; }
@@ -235,7 +237,7 @@
 .band-row p { color: var(--pmuted); font-size: 17px; line-height: 1.45; margin-top: 2px; }
 .band-watch { position: relative; display: grid; place-items: center; }
 .band-cap { position: relative; font-weight: 800; font-size: 18px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--teal-l); margin-top: 8px; }
-.band-watch .watch { height: 660px; width: auto; position: relative; filter: drop-shadow(0 40px 70px rgba(0, 0, 0, 0.6)); }
+
 .band-halo { position: absolute; width: 520px; height: 520px; border-radius: 50%; background: radial-gradient(circle, rgba(46, 196, 209, 0.35), transparent 65%); animation: halo 4s ease-in-out infinite; }
 @keyframes halo { 50% { transform: scale(1.12); opacity: 0.7; } }
 
@@ -244,8 +246,7 @@
   .pitch .a, .enter-next .p-inner, .enter-prev .p-inner { animation: none !important; opacity: 1; }
   .p-ecg path, .ring .fill { animation: none; stroke-dashoffset: 0; }
   .ring .fill { stroke-dashoffset: 270.2; }
-  .blob, .chain-dot, .tl-dot, .band-watch .watch, .p-qr-big .qr, .p-floor { animation: none !important; }
-  .p-tilt { transform: none !important; }
+  .blob, .chain-dot, .tl-dot, .p-qr-big .qr, .p-floor { animation: none !important; }
   .pulse-ring { display: none; }
 }
 
