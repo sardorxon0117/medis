@@ -76,10 +76,6 @@
 .p-cover h1 { position: relative; }
 .word { display: inline-block; }
 .p-lead { font-size: 26px; color: var(--pmuted); max-width: 52ch; line-height: 1.45; position: relative; }
-.p-team { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; position: relative; }
-.p-team div { border-top: 2px solid var(--pline); padding-top: 12px; display: grid; gap: 2px; }
-.p-team b { color: var(--teal-l); font-size: 15px; letter-spacing: 0.1em; }
-.p-team span { font-size: 16px; color: var(--pfg); }
 .p-brand { display: inline-flex; align-items: center; gap: 14px; color: var(--navy); }
 .p-brand.light { color: #f6f8fa; }
 .p-brand img { height: 63px; width: auto; }
@@ -191,6 +187,17 @@
 /* ---------- pastki panel ---------- */
 .p-progress { position: absolute; top: 0; left: 0; right: 0; height: 4px; background: rgba(127, 150, 170, 0.18); z-index: 5; }
 .p-progress span { display: block; height: 100%; background: linear-gradient(90deg, var(--teal-l), var(--teal)); transition: width 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); }
+/* jamoa slaydi */
+.team-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 28px; position: relative; }
+.team-card { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 12px; background: var(--pcard); border: 1px solid var(--pline); border-radius: 28px; padding: 36px 20px 30px; transition: transform 0.25s; }
+.team-card:hover { transform: translateY(-6px); }
+.team-photo { width: 220px; height: 220px; border-radius: 50%; padding: 6px; background: conic-gradient(from 200deg, var(--rc), transparent 60%, var(--rc)); box-shadow: 0 24px 50px -24px var(--rc); }
+.team-photo img, .team-initials { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: grid; place-items: center; background: #0f1a2e; border: 4px solid var(--ink); }
+.team-initials { font-family: var(--f-display); font-size: 56px; font-weight: 700; color: var(--rc); }
+.team-role { font-size: 15px; font-weight: 800; letter-spacing: 0.14em; padding: 5px 16px; border-radius: 99px; color: #0a1424; background: var(--rc); }
+.team-card h3 { font-size: 26px; }
+.team-card p { color: var(--pmuted); font-size: 17px; }
+
 /* demo slaydi: katta oq QR qorongʻi fonda */
 .p-demo { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 64px; align-items: center; }
 .p-qr-big { position: relative; display: grid; place-items: center; padding: 20px; }

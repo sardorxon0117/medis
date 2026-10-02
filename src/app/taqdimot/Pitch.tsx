@@ -89,6 +89,25 @@ function Ecg({ className = "" }: { className?: string }) {
   );
 }
 
+// Jamoa: rasmlar web/public/team/<rol>.jpg dan olinadi; rasm yoʻq boʻlsa bosh harflar koʻrinadi
+const TEAM: { role: Role; name: string; job: string; photo: string; color: string }[] = [
+  { role: "CEO", name: "[Ism Familiya]", job: "Asoschi · strategiya va hamkorlar", photo: "/team/ceo.jpg", color: "#2ec4d1" },
+  { role: "CMO", name: "[Ism Familiya]", job: "Marketing va brend", photo: "/team/cmo.jpg", color: "#9b82f0" },
+  { role: "CFO", name: "[Ism Familiya]", job: "Moliya va investitsiya", photo: "/team/cfo.jpg", color: "#f0b429" },
+  { role: "CTO", name: "[Ism Familiya]", job: "Texnologiya va mahsulot", photo: "/team/cto.jpg", color: "#5b9cff" },
+];
+
+function TeamPhoto({ src, name, role }: { src: string; name: string; role: Role }) {
+  const [failed, setFailed] = useState(false);
+  const letters = name.startsWith("[") ? role : name.split(" ").map((w) => w[0]).slice(0, 2).join("");
+  return failed ? (
+    <span className="team-initials">{letters}</span>
+  ) : (
+    // eslint-disable-next-line @next/next/no-img-element -- rasm boʻlmasa bosh harflarga qaytish uchun oddiy img
+    <img src={src} alt={name.startsWith("[") ? `${role} rasmi` : name} onError={() => setFailed(true)} />
+  );
+}
+
 const SLIDES: SlideDef[] = [
   {
     id: "cover", role: "CEO", theme: "dark",
@@ -103,12 +122,26 @@ const SLIDES: SlideDef[] = [
         </h1>
         <p className="p-lead a a-fade" style={d(1000)}>Bemor, shifokor, klinika, apteka va kuryerni birlashtiruvchi davolanishdan keyingi nazorat platformasi</p>
         <Ecg className="a a-draw" />
-        <div className="p-team">
-          {(["CEO", "CMO", "CFO", "CTO"] as Role[]).map((r, i) => (
-            <div key={r} className="a a-up" style={d(1300 + i * 100)}><b>{r}</b><span>[Ism Familiya]</span></div>
+      </div>
+    ),
+  },
+  {
+    id: "jamoa", role: "CEO", theme: "dark",
+    render: () => (
+      <>
+        <div className="blob b1" />
+        <Head eyebrow="Jamoa" title={<>MEDIS ortidagi <span className="accent">jamoa</span></>} />
+        <div className="team-grid">
+          {TEAM.map((m, i) => (
+            <div key={m.role} className="team-card a a-up" style={{ ...d(250 + i * 160), "--rc": m.color } as CSSProperties}>
+              <div className="team-photo"><TeamPhoto src={m.photo} name={m.name} role={m.role} /></div>
+              <span className="team-role">{m.role}</span>
+              <h3>{m.name}</h3>
+              <p>{m.job}</p>
+            </div>
           ))}
         </div>
-      </div>
+      </>
     ),
   },
   {
