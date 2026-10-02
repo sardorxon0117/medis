@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore, type CSSProperties, type ReactNode } from "react";
 import { Icon, type IconName } from "@/components/Icon";
+import { QrCode } from "@/components/QrCode";
 import { Watch } from "@/components/Watch";
 
 type Role = "CEO" | "CMO" | "CFO" | "CTO";
@@ -428,7 +429,13 @@ const SLIDES: SlideDef[] = [
           <div className="stack-l">
             <p className="p-text a a-left" style={d(250)}>Websaytimiz manzili</p>
             <p className="p-url a a-pop" style={d(400)}>medis.tayyorr.uz</p>
-            <a href="/" target="_blank" rel="noopener noreferrer" className="p-btn a a-up" style={d(600)}>Saytni ochish <span aria-hidden="true">↗</span></a>
+            <div className="p-qr-row">
+              <div className="p-qr a a-pop" style={d(650)}>
+                <QrCode size={230} />
+                <span>Telefon kamerasi bilan skanerlang</span>
+              </div>
+              <a href="/" target="_blank" rel="noopener noreferrer" className="p-btn a a-up" style={d(600)}>Saytni ochish <span aria-hidden="true">↗</span></a>
+            </div>
           </div>
           <ol className="p-check">
             {[
